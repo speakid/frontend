@@ -1,0 +1,54 @@
+@import url("../../../root.css");
+
+.Button{
+    font-size: 18px;
+    border-radius: 20px;
+}
+
+.ButtonBig{
+    width: 350px;
+    padding: 20px;
+}
+
+.ButtonSmall{
+    width: 145px;
+    padding: 10px;
+}
+
+.Base{
+    background-color: var(--color_red_default);
+    color: var(--color_white);
+    border: 0;
+}
+.Base:hover{
+    background-color: var(--color_red_light);
+}
+.Base:active{
+    background-color: var(--color_red_active);
+    color: var(--color_white);
+}
+
+.Base.Inactive{
+    background-color: var(--color_grey_light) !important;
+    color: var(--color_grey_dark) !important;
+}
+
+.Outlined{
+    background-color: var(--color_transparent);
+    color: var(--color_red_default);
+    border-width: 1px;
+
+    border-color: var(--color_red_default);
+}
+.Outlined:hover{
+    color: var(--color_red_light);
+    border-color: var(--color_red_light);
+}
+.Outlined:active{
+    color: var(--color_red_active);
+    border-color: var(--color_red_active);
+}
+.Outlined.Inactive{
+    color: var(--color_grey_dark) !important;
+    border-color: var(--color_grey_dark) !important;
+}
