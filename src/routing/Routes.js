@@ -15,11 +15,14 @@ import {AppRoute} from "./AppRoute";
 import {MenuRoute} from "./MenuRoute";
 import PersonalPage from "../pages/personal/PersonalPage";
 import JournalPage from "../pages/personal/JournalPage";
+import { RedirectToLogin } from "../components/redirects/RedirectToLogin";
+import { ProtectedAppRoute } from "./ProtectedAppRoute";
+import { StudentPage } from "../pages/personal/StudentPage";
 
 export const routeList = [
     new AppRoute(
         "/",
-        <div style={{width: 600, height: 600, backgroundColor: "black", color: "white"}}> MAIN PAGE</div>
+        <RedirectToLogin><PersonalPage/></RedirectToLogin>
     ),
     new AppRoute(
         "/auth/login",
@@ -74,7 +77,13 @@ export const routeList = [
         <PersonalPage/>,
         <BsPersonGear/>,
         "Поддержка"
+    ),
+    new MenuRoute(
+        "/service/students/:studentId",
+        <StudentPage/>,
+        <BsPersonGear/>,
+        "student1"
     )
 ]
 
-export const menuRouteList = routeList.filter(el=>el.constructor.name === "MenuRoute")
+export const menuRouteList = routeList.filter(el=>el instanceof MenuRoute)

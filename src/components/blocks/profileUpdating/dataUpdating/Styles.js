@@ -7,6 +7,8 @@ export const styles = {
         borderRadius: 20,
         width: 530,
         height: "max-content",
+    },
+    dataUpdatingForm: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

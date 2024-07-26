@@ -1,22 +1,24 @@
 import FormDefault from "./FormDefault";
 import {useRef} from "react";
-import {FormTextInput} from "../../inputs/FormTextInput/FormTextInput";
+import {FormTextInput, NewFormTextInput} from "../../inputs/FormTextInput/FormTextInput";
 import {Button} from "../../controls/Button/Button";
 import {Link, OnestNormalSmall} from "../../styled/TextComponents";
 import {ButtonDefault} from "../../controls/Button/ButtonDefault";
+import { useForm } from "react-hook-form";
+import { color_red_default, color_white } from "../../../constants/colors";
 
 const LoginForm = () => {
     const formRef = useRef(null);
 
-    const handleSubmit = (event) => {
-        alert("a")
-        console.log(event)
-        // event.preventDefault();
-        alert("b")
-        if (formRef.current) {
-            alert("c")
-            formRef.current.submit();
-        }
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: {errors}
+    } = useForm()
+
+    const submitHandler = (data) => {
+        console.log(data)
     }
 
     const loginSubmit = (event) => {
@@ -26,15 +28,15 @@ const LoginForm = () => {
 
     return(
         <FormDefault
-            onSubmit={loginSubmit}
+            onSubmit={handleSubmit((data)=>console.log(data))}
             title={"Авторизация"}
             formWidth={410}
         >
-            <FormTextInput placeholder={"example@mail.ru"} type={"email"} title={"Email"}/>
-            <FormTextInput placeholder={"Введите пароль"} type={"password"} title={"Пароль"}/>
-            <div style={{marginTop: -20, width: "100%", textAlign: "left"}}><OnestNormalSmall><Link href={"/"}>Забыли пароль?</Link></OnestNormalSmall></div>
+            <NewFormTextInput placeholder={"example@mail.ru"} type={"email"} title={"Email"} register={register("email")}/>
+            <NewFormTextInput placeholder={"Введите пароль"} type={"password"} title={"Пароль"} register={register("password")}/>
+            <div style={{marginTop: -20, width: "100%", textAlign: "left"}}><OnestNormalSmall><Link href={"/auth/recovery"}>Забыли пароль?</Link></OnestNormalSmall></div>
 
-            <ButtonDefault width={350} height={63} active={true}>Войти</ButtonDefault>
+            <Button backgroundColor={color_red_default} color={color_white} outline={false} width={350} height={63} active={true} type={"submit"}>Войти</Button>
             <div style={{
                 display: "flex",
                 flexDirection: "row",
@@ -44,7 +46,7 @@ const LoginForm = () => {
                 marginTop: -20
             }}>
                 <OnestNormalSmall>Нет аккаунта?</OnestNormalSmall>
-                <OnestNormalSmall><Link href={"/"}>Зарегистрируйтесь</Link></OnestNormalSmall>
+                <OnestNormalSmall><Link href={"/auth/register"}>Зарегистрируйтесь</Link></OnestNormalSmall>
             </div>
         </FormDefault>
     )

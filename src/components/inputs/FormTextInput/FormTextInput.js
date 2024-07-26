@@ -28,3 +28,31 @@ export const FormTextInput = ({placeholder, type, title, valueContainer, onChang
         </OnestNormalDefault>
     )
 }
+
+
+export const NewFormTextInput = ({placeholder, type, title, defaultValue, register}) => {
+    return (
+        <OnestNormalDefault weight={"normal"}>
+            <div
+                style={{
+                    display: "inline-flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    width: "100%",
+                    gap: 10,
+                    fontSize: 14
+                }}
+            >
+                <OnestNormalSmall>{title}</OnestNormalSmall>
+                <OnestNormalDefault>
+                    <FormInput
+                        {...register}
+                        defaultValue={defaultValue}
+                        placeholder={placeholder}
+                        type={type}
+                    />
+                </OnestNormalDefault>
+            </div>
+        </OnestNormalDefault>
+    )
+}

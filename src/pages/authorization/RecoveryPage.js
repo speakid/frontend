@@ -4,11 +4,11 @@ import {useState} from "react";
 import RecoverySubmitForm from "../../components/forms/authorization/RecoverySubmitForm";
 
 const RecoveryPage = () => {
-    const recoveryCodeSended = useState(true);
+    const [recoveryCodeSended, setRecoveryCodeSended] = useState(false);
 
     return(
         <AuthorizationBase>
-            {recoveryCodeSended? <RecoverySubmitForm/> : <RecoveryForm/>}
+            {recoveryCodeSended === false? <RecoverySubmitForm/> : <RecoveryForm/>}
         </AuthorizationBase>
     )
 }

@@ -1,11 +1,12 @@
 import {color_red_default, color_transparent, color_white} from "../../../../constants/colors";
-import {FormTextInput} from "../../../inputs/FormTextInput/FormTextInput";
+import {FormTextInput, NewFormTextInput} from "../../../inputs/FormTextInput/FormTextInput";
 import {Button} from "../../../controls/Button/Button";
 import React, {useEffect, useReducer, useState} from "react";
 import {styles} from "./Styles";
 import {LoadingContainer} from "../../../containers/LoadingContainer";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser, updateUser} from "../../../../store/UserSlice";
+import { useForm } from "react-hook-form";
 
 class User{
     constructor(image, name, email, phoneNumber, timeZone, password) {
@@ -50,10 +51,22 @@ export async function get_user(){
     )
 }
 
+const FormSubmitButton = () => {
+    
+}
+
 export const ProfileDataUpdatingBlock = () => {
     const [isLoading, setIsLoading] = useState(true);
     const user = useSelector(state=>state.user);
     const dispatch = useDispatch();
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: {errors}
+    } = useForm();
+
 
 
    useEffect(()=>{
@@ -74,18 +87,18 @@ export const ProfileDataUpdatingBlock = () => {
         <>
             <div style={{...styles.dataUpdatingContainer}}>
                 <LoadingContainer isLoading={isLoading}>
-                    <FormTextInput placeholder={"Введите имя"} type={"text"} title={"Имя"} valueContainer={user?.name} onChange={(newName) => {user.name = newName; dispatch(updateUser({...user}))}}/>
-                    <FormTextInput placeholder={"Введите email"} type={"email"} title={"E-mail"} valueContainer={user?.email} onChange={(newEmail) => {user.email = newEmail; dispatch(updateUser({...user}))}}/>
-                    <FormTextInput placeholder={"Введите номер телефона"} type={"tel"} title={"Номер телефона"} valueContainer={user?.phoneNumber} onChange={(newNumber) => {user.phoneNumber = newNumber; dispatch(updateUser({...user}))}}/>
-                    <FormTextInput placeholder={"Часовой пояс"} type={"text"} title={"Часовой пояс"} valueContainer={user?.timeZone} onChange={(newTimeZone) => {user.timeZone = newTimeZone; dispatch(updateUser({...user}))}}/>
-                    {/*<FormTextInput placeholder={"Введите новый пароль"} type={"password"} title={"Введите новый пароль"} valueContainer={user?.newPassword} onChange={(newPassword) => {user.newPassword = newPassword; dis({type: "update", user: user})}}/>*/}
-                    {/*<FormTextInput placeholder={"Повторите новый пароль"} type={"password"} title={"Повторите новый пароль"} valueContainer={user?.newPasswordRepeat} onChange={(newPasswordRepeat) => {user.newPasswordRepeat = newPasswordRepeat; userDispatcher({type: "update", user: user})}}/>*/}
+                    <form onSubmit={handleSubmit((data)=>console.log(data))} style={{...styles.dataUpdatingForm}}>
+                        <NewFormTextInput placeholder={"Введите имя"} type={"text"} title={"Имя"} defaultValue={user?.name} register={register("name")}/>
+                        <NewFormTextInput placeholder={"Введите email"} type={"email"} title={"E-mail"} defaultValue={user?.email} register={register("email")}/>
+                        <NewFormTextInput placeholder={"Введите номер телефона"} type={"tel"} title={"Номер телефона"} defaultValue={user?.phoneNumber} register={register("phone")}/>
+                        <NewFormTextInput placeholder={"Часовой пояс"} type={"text"} title={"Часовой пояс"} defaultValue={user?.timeZone} register={register("timeZone")}/>
+                        <NewFormTextInput placeholder={"Введите новый пароль"} type={"password"} title={"Введите новый пароль"} defaultValue={null} register={register("newPassword")}/>
+                        <NewFormTextInput placeholder={"Повторите новый пароль"} type={"password"} title={"Повторите новый пароль"} defaultValue={null} register={register("newPasswordRepeat")}/>
+                        <Button outline={false} width={530} height={60} active={true} backgroundColor={color_red_default}
+                        color={color_white} borderColor={color_transparent} fontSize={18}>Сохранить</Button>
+                    </form>
                 </LoadingContainer>
             </div>
-            <LoadingContainer isLoading={isLoading} showLoader={false}>
-                <Button outline={false} width={530} height={60} active={true} backgroundColor={color_red_default}
-                        color={color_white} borderColor={color_transparent} fontSize={18}>Сохранить</Button>
-            </LoadingContainer>
         </>
 
     )

@@ -3,15 +3,18 @@ import authorizationImage from "../../images/Экран авторизации.s
 
 import Footer from "../../components/blocks/Footer";
 import DefaultPage from "../../components/containers/DefaultPage";
+import { useWindowDimensions } from "../../utils";
 
 const AuthorizationBase = ({children, image = authorizationImage}) => {
+    const { height, width } = useWindowDimensions();
+    
     return (
         <DefaultPage>
           <div style={{
               display: "flex",
               flexDirection: "column",
-              height: "100%",
-              width: "100%",
+              height: height,
+              width: width,
               gap: 60,
               justifyContent: "space-between",
               boxSizing: "border-box",

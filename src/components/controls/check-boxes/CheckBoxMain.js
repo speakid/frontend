@@ -1,7 +1,7 @@
 import * as colors from "../../../constants/colors";
 import {useState} from "react";
 
-const CheckBoxMain = ({onActivate, onDeactivate, isInactive}) => {
+const CheckBoxMain = ({onActivate, onDeactivate, isInactive, register}) => {
 
     const [checked, setChecked] = useState(false);
     const [hover, setHover] = useState(false);

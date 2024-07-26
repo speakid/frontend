@@ -68,8 +68,9 @@ const MenuItem = ({icon, path, name}) => {
                 height: 50,
                 width: 240,
                 flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center"
+                justifyContent: "flex-start",
+                alignItems: "center",
+                gap: 20
         }}>
             <div style={{height: 50, width: 3, backgroundColor: isSelected? color : "transparent"}}></div>
             <span style={{color: color, fontSize: 16}}>{icon}</span>
@@ -102,6 +103,8 @@ const NavBar = ({userObject = new User(1, "satamaks@gmail.com", "Maxim Zubkov", 
             width: 240,
             alignItems: "center",
             backgroundColor: color_white,
+            borderTopRightRadius: 40,
+            borderBottomRightRadius: 40
         }}>
             <div style={{marginTop: 20}}><Logo/></div>
            <div style={{
@@ -115,6 +118,7 @@ const NavBar = ({userObject = new User(1, "satamaks@gmail.com", "Maxim Zubkov", 
            </div>
             <div style={{marginTop: 20}}><ButtonDefault width={145} height={40} active={true}>Продлить</ButtonDefault></div>
             <div style={{marginTop: 100}}><NavMenu/></div>
+            <div style={{flexGrow: 1}}/>
             <div style={{marginBottom: 30, marginLeft: 20, width: "100%", color: color_red_default, paddingTop: 40}}><BsBoxArrowLeft/> <Link href={"/"}>Выйти</Link></div>
 
         </div>

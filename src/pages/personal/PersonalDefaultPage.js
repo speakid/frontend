@@ -33,9 +33,8 @@ const PersonalDefaultPage = ({children}) => {
     return(
         <DefaultPage>
             <div style={{
-                width: "100%",
-                minHeight: "max-content",
-                height: "100%",
+                width: width,
+                minHeight: height,
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between"

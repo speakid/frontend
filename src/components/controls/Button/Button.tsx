@@ -11,7 +11,8 @@ type ButtonProps = {
     backgroundColor: string ,
     color: string,
     borderColor: string ,
-    fontSize: number
+    fontSize: number,
+    type?: string
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -23,7 +24,8 @@ export const Button: FC<ButtonProps> = ({
     backgroundColor,
     color,
     borderColor,
-    fontSize
+    fontSize,
+    type = null
 }) => {
     const buttonStyle = {
             width: width,
