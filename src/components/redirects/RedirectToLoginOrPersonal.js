@@ -1,11 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import React, {useEffect} from "react";
 
-export const RedirectToLogin = ({children}) => {
+export const RedirectToLoginOrPersonal = ({children}) => {
     const navigate = useNavigate();
     useEffect(() => {
         console.log("redirect...")
-        // navigate("/auth/login")
+        // navigate("/service/personal")
     })
 
     return (

@@ -30,7 +30,7 @@ export const FormTextInput = ({placeholder, type, title, valueContainer, onChang
 }
 
 
-export const NewFormTextInput = ({placeholder, type, title, defaultValue, register}) => {
+export const NewFormTextInput = ({placeholder, type, title, defaultValue, register, inputBackgroundColor = null}) => {
     return (
         <OnestNormalDefault weight={"normal"}>
             <div
@@ -50,6 +50,9 @@ export const NewFormTextInput = ({placeholder, type, title, defaultValue, regist
                         defaultValue={defaultValue}
                         placeholder={placeholder}
                         type={type}
+                        style={{
+                            backgroundColor: inputBackgroundColor
+                        }}
                     />
                 </OnestNormalDefault>
             </div>

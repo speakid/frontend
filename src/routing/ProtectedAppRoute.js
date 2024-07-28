@@ -1,4 +1,4 @@
-import {RedirectToLogin} from "../components/redirects/RedirectToLogin";
+import {RedirectToLoginOrPersonal} from "../components/redirects/RedirectToLoginOrPersonal";
 import {AppRoute} from "./AppRoute";
 
 export class ProtectedAppRoute extends AppRoute {
@@ -6,6 +6,6 @@ export class ProtectedAppRoute extends AppRoute {
         path,
         element
     ) {
-        super(path, <RedirectToLogin>{element}</RedirectToLogin>);
+        super(path, <RedirectToLoginOrPersonal>{element}</RedirectToLoginOrPersonal>);
     }
 }

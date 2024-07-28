@@ -38,7 +38,8 @@ export const Button: FC<ButtonProps> = ({
             boxShadow: "null",
             borderStyle: "solid",
             borderWidth: 1,
-            padding: 0
+            padding: 0,
+            cursor: "pointer"
     }
     return (
         <button style={buttonStyle}>

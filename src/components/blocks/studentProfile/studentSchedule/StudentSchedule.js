@@ -3,16 +3,15 @@ import { styles } from "./styles";
 import { Button } from "../../../controls/Button/Button";
 import { OnestBoldSmall, OnestNormalDefault, OnestNormalSmall } from "../../../styled/TextComponents";
 import { color_red_default, color_white } from "../../../../constants/colors";
-import CheckBoxMain from "../../../controls/check-boxes/CheckBoxMain";
 import { FormCheckBox } from "../../../forms/authorization/RegisterForm";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 const WeekdaySelectorButtons = () => {
     const {register, watch} = useFormContext();
     const englishLevels = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
-    const student = useSelector(state=>state.student);
-    const dispatch = useDispatch();
+    // const student = useSelector(state=>state.student);
+    // const dispatch = useDispatch();
     // console.log(watch("weekday"))
     return (
         <div style={{...styles.infoEditContainer}}>
@@ -28,7 +27,7 @@ const WeekdaySelectorButtons = () => {
                                     watch("weekday")?.includes(el)
                                 ) && styles.weekDaySelectorButtonActive
                             )
-                        }} for={el}><OnestNormalSmall>{el}</OnestNormalSmall></label>
+                        }} htmlFor={el}><OnestNormalSmall>{el}</OnestNormalSmall></label>
                     </>
                 )}
             </div>
@@ -63,14 +62,14 @@ const WeekdayTimeSelector = () => {
 
 export const StudentScheduleEdit = () => {
     const student = useSelector(state=>state.student);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const {
         register,
         handleSubmit,
         watch,
         control,
-        formState: {errors}
+        // formState: {errors}
     } = useForm({
         defaultValues: {
             "weekday": student.lessonsSchedule.map(el=>el.weekDayShort),
@@ -78,7 +77,7 @@ export const StudentScheduleEdit = () => {
                 let time = lesson.time
                 let wd = lesson.weekDayShort
                 let timeRow = {}
-                timeRow[wd] = timeRow
+                timeRow[wd] = time
                 return timeRow
             })
         }

@@ -1,11 +1,17 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import userReducer from "./UserSlice";
-import studentReducer from "./Student"
+import studentReducer from "./StudentSlice"
+import studentsJournalReducer from "./StudentsJournalSlice"
+import faqReducer from "./FaqSlice";
+import lessonsProgramReducer from "./LessonsProgramSlice";
 
 
 const rootReducer = combineReducers({
     user: userReducer,
-    student: studentReducer
+    student: studentReducer,
+    studentsJournal: studentsJournalReducer,
+    faq: faqReducer,
+    lessonsProgram: lessonsProgramReducer
 })
 
 export const store = configureStore({

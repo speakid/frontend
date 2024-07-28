@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+// import { useParams } from "react-router-dom"
 import PersonalDefaultPage from "./PersonalDefaultPage"
 import dollar from "../../images/dollar.svg";
 import pig from "../../images/pig.svg";
@@ -8,16 +8,16 @@ import { color_white } from "../../constants/colors";
 import { StudentSchedule } from "../../components/blocks/StudentSchedule";
 import { StudentLessonsProgram } from "../../components/blocks/StudentLessonsProgram";
 import { StudentInfo } from "../../components/blocks/studentProfile/studentInfo/StudentInfo";
-import {useReducer} from "react";
-import {tasksReducer} from "../../components/blocks/weeklyTasks/Reducers";
-import {studentReducer} from "../../store/Student";
-import {useDispatch, useSelector} from "react-redux";
+import {
+    // useDispatch,
+    useSelector
+} from "react-redux";
 
 
 export const StudentPage = () => {
-    const {studentId} = useParams();
+    // const {studentId} = useParams();
     const student = useSelector(state=>state.student);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     
     return (
         <PersonalDefaultPage>

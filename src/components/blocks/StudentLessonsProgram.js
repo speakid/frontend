@@ -12,7 +12,7 @@ import { OnestBoldDefault, OnestNormalDefault } from "../styled/TextComponents"
 import { BlockTitle } from "../text/BlockTitle"
 import { Button } from "../controls/Button/Button"
 import {useDispatch, useSelector} from "react-redux";
-import {updateStudent} from "../../store/Student";
+import {updateStudent} from "../../store/StudentSlice";
 
 const StudentLessonText = ({title, level}) => {
     return(
@@ -39,7 +39,7 @@ const StudentLesson = ({lessonData}) => {
             flexDirection: "row",
             gap: 10
         }}>
-            <img src={lessonData.image} style={{
+            <img src={lessonData.image} alt={"lessonImae"} style={{
                 width: 176,
                 height: 104,
                 borderRadius: 20
@@ -88,7 +88,7 @@ const StudentLesson = ({lessonData}) => {
 
 export const StudentLessonsProgram = () => {
     const student = useSelector(state=>state.student);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     return (
         <div style={{
@@ -115,6 +115,7 @@ export const StudentLessonsProgram = () => {
                     width={170}
                     height={25}
                     fontSize={12}
+                    outline={false}
                     color={color_grey_dark}
                 >Изменить программу</Button>
             </div>

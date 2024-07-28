@@ -15,14 +15,15 @@ import {AppRoute} from "./AppRoute";
 import {MenuRoute} from "./MenuRoute";
 import PersonalPage from "../pages/personal/PersonalPage";
 import JournalPage from "../pages/personal/JournalPage";
-import { RedirectToLogin } from "../components/redirects/RedirectToLogin";
+import { RedirectToLoginOrPersonal } from "../components/redirects/RedirectToLoginOrPersonal";
 import { ProtectedAppRoute } from "./ProtectedAppRoute";
 import { StudentPage } from "../pages/personal/StudentPage";
+import SupportPage from "../pages/personal/SupportPage";
 
 export const routeList = [
     new AppRoute(
         "/",
-        <RedirectToLogin><PersonalPage/></RedirectToLogin>
+        <RedirectToLoginOrPersonal><PersonalPage/></RedirectToLoginOrPersonal>
     ),
     new AppRoute(
         "/auth/login",
@@ -74,16 +75,16 @@ export const routeList = [
     ),
     new MenuRoute(
         "/service/support",
-        <PersonalPage/>,
+        <SupportPage/>,
         <BsPersonGear/>,
         "Поддержка"
     ),
-    new MenuRoute(
+    new ProtectedAppRoute(
         "/service/students/:studentId",
         <StudentPage/>,
         <BsPersonGear/>,
         "student1"
-    )
+    ),
 ]
 
 export const menuRouteList = routeList.filter(el=>el instanceof MenuRoute)

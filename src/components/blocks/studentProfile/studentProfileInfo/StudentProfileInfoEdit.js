@@ -1,36 +1,40 @@
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { styles } from "./styles"
-import { OnestBoldSmall, OnestNormalDefault, OnestNormalSmall } from "../../../styled/TextComponents";
+import {OnestBoldSmall, OnestNormalDefault, OnestNormalSmall, OnestSemiBoldSmall} from "../../../styled/TextComponents";
 import { Button } from "../../../controls/Button/Button";
-import { color_red_default, color_white } from "../../../../constants/colors";
+import {color_grey_ultra_light, color_red_default, color_white} from "../../../../constants/colors";
 import {useDispatch, useSelector} from "react-redux";
 
-const TextInput = ({multiline=false, width, height, title, inputKey, defaultValue = null}) => {
+export const TextInput = ({multiline=false, width, height, title, placeholder = null, inputKey, defaultValue = null, inputBackgroundColor = null}) => {
     const {register} = useFormContext();
     return (
         <div style={{...styles.infoEditContainer}}>
-            <OnestBoldSmall>{title}</OnestBoldSmall>
+            <OnestSemiBoldSmall>{title}</OnestSemiBoldSmall>
             {multiline === false?
                 <input 
                     type={"text"} 
                     defaultValue={defaultValue}
                     {...register(inputKey)}
-                    style={{
-                        ...styles.infoEditSmallTextInput,
-                        width: width,
-                        height: height
-                    }}
-                />
-                : 
-                <textarea 
-                    type={"text"} 
-                    defaultValue={defaultValue}
-                    {...register(inputKey)}
+                    placeholder={placeholder}
                     style={{
                         ...styles.infoEditSmallTextInput,
                         width: width,
                         height: height,
-                        resize: "none"
+                        backgroundColor: inputBackgroundColor,
+                        // paddingLeft: 1
+                    }}
+                />
+                : 
+                <textarea
+                    defaultValue={defaultValue}
+                    {...register(inputKey)}
+                    placeholder={placeholder}
+                    style={{
+                        ...styles.infoEditSmallTextInput,
+                        width: width,
+                        height: height,
+                        resize: "none",
+                        backgroundColor: inputBackgroundColor
                     }}
                 />
             }
@@ -62,10 +66,6 @@ const LevelSelectorButtons = () => {
 }
 
 export const StudentProfileInfoEdit = () => {
-    const name = "Миша Смирнов"
-    const age = 12
-    const level = "Beginner"
-    const additionalInfo = "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество."
     const student = useSelector(state=>state.student);
     const dispatch = useDispatch();
 
@@ -83,8 +83,8 @@ export const StudentProfileInfoEdit = () => {
                 onSubmit={handleSubmit((data)=>console.log(data))}
             >
                 <div style={{display: "flex", flexDirection: "row", gap: 10}}>
-                    <TextInput width={205} height={50} title={"Имя и фамилия"} inputKey={"name"} defaultValue={student.name}/>
-                    <TextInput width={205} height={50} title={"Возраст"} inputKey={"age"} defaultValue={student.age}/>
+                    <TextInput width={205} height={50} title={"Имя и фамилия"} inputKey={"name"} defaultValue={student.name} inputBackgroundColor={color_grey_ultra_light}/>
+                    <TextInput width={205} height={50} title={"Возраст"} inputKey={"age"} defaultValue={student.age} inputBackgroundColor={color_grey_ultra_light}/>
                 </div>
                 <LevelSelectorButtons defaultValue={student.englishLevel}/>
                 <TextInput multiline={true} width={420} height={128} title={"Дополнительная информация"} inputKey={"additionalInfo"} defaultValue={student.additionalInfo}/>
