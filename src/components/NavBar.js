@@ -53,7 +53,7 @@ const MenuItem = ({icon, path, name}) => {
     const [isSelected, setIsSelected] = useState(false)
     const location = useLocation()
     const navigate = useNavigate();
-    const color = isSelected? color_red_default : color_grey_light;
+    const color = (isSelected || name ==="Выйти")? color_red_default : color_grey_light;
 
     useEffect(()=>{
         console.log(location.pathname, path,location === path)
@@ -118,8 +118,8 @@ const NavBar = ({userObject = new User(1, "satamaks@gmail.com", "Maxim Zubkov", 
            </div>
             <div style={{marginTop: 20}}><ButtonDefault width={145} height={40} active={true}>Продлить</ButtonDefault></div>
             <div style={{marginTop: 100}}><NavMenu/></div>
-            <div style={{flexGrow: 1}}/>
-            <div style={{marginBottom: 30, marginLeft: 20, width: "100%", color: color_red_default, paddingTop: 40}}><BsBoxArrowLeft/> <Link href={"/"}>Выйти</Link></div>
+            {/*<div style={{flexGrow: 1}}/>*/}
+            {/*<div style={{marginBottom: 30, marginLeft: 20, width: "100%", color: color_red_default, paddingTop: 40}}><BsBoxArrowLeft/> <Link href={"/"}>Выйти</Link></div>*/}
 
         </div>
     )

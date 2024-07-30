@@ -7,7 +7,7 @@ const lessonsProgramSlice = createSlice({
             id: 0,
             level: 0,
             age: "4-7 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {
@@ -37,7 +37,7 @@ const lessonsProgramSlice = createSlice({
             id: 1,
             level: 1,
             age: "5-8 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {
@@ -67,7 +67,7 @@ const lessonsProgramSlice = createSlice({
             id: 2,
             level: 2,
             age: "6-8 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {
@@ -97,7 +97,7 @@ const lessonsProgramSlice = createSlice({
             id: 3,
             level: 3,
             age: "8-10 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {
@@ -127,7 +127,7 @@ const lessonsProgramSlice = createSlice({
             id: 4,
             level: 4,
             age: "8-11 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {
@@ -157,7 +157,7 @@ const lessonsProgramSlice = createSlice({
             id: 5,
             level: 5,
             age: "9-14 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {
@@ -187,7 +187,7 @@ const lessonsProgramSlice = createSlice({
             id: 6,
             level: 6,
             age: "9-13 years old",
-            image: "https://sun1-19.userapi.com/impg/Ew92tZA0JgfF_QVOd3NWps0oC4TmHhYCJ57b-g/vco5f9fvqmI.jpg?size=1097x1097&quality=96&sign=9dcc53168aca43e9ba4b9ecbf04a672a&type=album",
+            image: "https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png",
             summary: "This lesson is well-suited for students between the ages of 4-7 years old. The student will have acquired a foundation in English vocabulary, colors, and basic grammar to describe emotions, sizes, and express their preferences and desires. They will also be familiar with the English alphabet and various words associated with each letter.",
             lessons: [
                 {

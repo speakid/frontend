@@ -19,6 +19,12 @@ import { RedirectToLoginOrPersonal } from "../components/redirects/RedirectToLog
 import { ProtectedAppRoute } from "./ProtectedAppRoute";
 import { StudentPage } from "../pages/personal/StudentPage";
 import SupportPage from "../pages/personal/SupportPage";
+import {LessonsProgram} from "../pages/personal/LessonsProgram";
+import {Updates} from "../pages/personal/Updates";
+import {LogOut} from "../components/redirects/LogOut";
+import {CiLogout} from "react-icons/ci";
+import {color_red_default} from "../constants/colors";
+import {IoLogOut} from "react-icons/io5";
 
 export const routeList = [
     new AppRoute(
@@ -57,7 +63,7 @@ export const routeList = [
     ),
     new MenuRoute(
         "/service/program",
-        <PersonalPage/>,
+        <LessonsProgram/>,
         <BsFiles/>,
         "Программа"
     ),
@@ -69,7 +75,7 @@ export const routeList = [
     ),
     new MenuRoute(
         "/service/updates",
-        <PersonalPage/>,
+        <Updates/>,
         <BsDownload/>,
         "Обновления"
     ),
@@ -84,6 +90,12 @@ export const routeList = [
         <StudentPage/>,
         <BsPersonGear/>,
         "student1"
+    ),
+    new MenuRoute(
+        "/logout",
+        <LogOut/>,
+        <IoLogOut style={{color: color_red_default}}/>,
+        "Выйти"
     ),
 ]
 
