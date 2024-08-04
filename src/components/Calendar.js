@@ -174,8 +174,7 @@ export const Calendar = () => {
 const styles = {
     calendar: {
         width: 330,
-        height: 300,
-        minHeight: "min-content",
+        height: "min-content",
         display: "flex",
         flexDirection: "column",
         margin: '0 auto',
@@ -222,7 +221,7 @@ const styles = {
         display: 'flex',
         flexDirection: "column",
         // flexWrap: 'wrap',
-        height: 320,
+        height: "min-content",
     },
     day: {
         // flex: '1 0 14%',
