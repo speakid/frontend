@@ -9,6 +9,7 @@ import {OnestNormalDefault, OnestSemiBoldDefault} from "../styled/TextComponents
 import {BsArrowRight, BsQuestion} from "react-icons/bs";
 import styled, {keyframes} from "styled-components";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const keyFrames = keyframes`
     from {
@@ -30,8 +31,9 @@ const BouncingDiv = styled.div`
     animation: ${props=>props.bouncing? keyFrames : null} 2s ease-in-out infinite;
 `
 
-export const LevelPreview = ({levelData}) => {
+export const LevelPreview = ({levelData, openLevelDescription}) => {
     const [bouncing, setBouncing] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <BouncingDiv
@@ -109,8 +111,9 @@ export const LevelPreview = ({levelData}) => {
                         width: 40,
                         height: 40,
                         color: color_red_default,
-                        fontSize: 30
-                    }}>
+                        fontSize: 30,
+                        cursor: "pointer"
+                    }} onClick={()=>openLevelDescription(levelData.level, levelData.summary)}>
                         <BsQuestion/>
                     </div>
                     <div style={{
@@ -124,8 +127,9 @@ export const LevelPreview = ({levelData}) => {
                         width: 40,
                         height: 40,
                         color: color_white,
-                        fontSize: 30
-                    }}>
+                        fontSize: 30,
+                        cursor: "pointer",
+                    }} onClick={()=>navigate(`/service/program/level/${levelData.id}`)}>
                         <BsArrowRight/>
                     </div>
                 </div>

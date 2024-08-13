@@ -4,6 +4,8 @@ import studentReducer from "./StudentSlice"
 import studentsJournalReducer from "./StudentsJournalSlice"
 import faqReducer from "./FaqSlice";
 import lessonsProgramReducer from "./LessonsProgramSlice";
+import libraryFilesReducer from "./LibraryFilesSlice";
+import scheduleReducer from "./ScheduleSlice";
 
 
 const rootReducer = combineReducers({
@@ -11,7 +13,9 @@ const rootReducer = combineReducers({
     student: studentReducer,
     studentsJournal: studentsJournalReducer,
     faq: faqReducer,
-    lessonsProgram: lessonsProgramReducer
+    lessonsProgram: lessonsProgramReducer,
+    libraryFiles: libraryFilesReducer,
+    schedule: scheduleReducer
 })
 
 export const store = configureStore({

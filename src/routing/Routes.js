@@ -25,6 +25,9 @@ import {LogOut} from "../components/redirects/LogOut";
 import {CiLogout} from "react-icons/ci";
 import {color_red_default} from "../constants/colors";
 import {IoLogOut} from "react-icons/io5";
+import {LevelLessonsPage} from "../pages/personal/LevelLessonsPage";
+import {LibraryPage} from "../pages/personal/LibraryPage";
+import {SchedulePage} from "../pages/personal/SchedulePage";
 
 export const routeList = [
     new AppRoute(
@@ -51,7 +54,7 @@ export const routeList = [
     ),
     new MenuRoute(
         "/service/schedule",
-        <PersonalPage/>,
+        <SchedulePage/>,
         <BsCalendar2Date/>,
         "Мое расписание"
     ),
@@ -69,7 +72,7 @@ export const routeList = [
     ),
     new MenuRoute(
         "/service/library",
-        <PersonalPage/>,
+        <LibraryPage/>,
         <BsBookFill/>,
         "Библиотека"
     ),
@@ -97,6 +100,10 @@ export const routeList = [
         <IoLogOut style={{color: color_red_default}}/>,
         "Выйти"
     ),
+    new ProtectedAppRoute(
+        "/service/program/level/:levelId",
+        <LevelLessonsPage/>
+    )
 ]
 
 export const menuRouteList = routeList.filter(el=>el instanceof MenuRoute)
