@@ -26,6 +26,7 @@ jobs:
           docker push syryx/speakid-frontend:test
 
   deploy-to-test-host:
+    needs: build
     name: Deploy to test host
     runs-on: ubuntu-latest
     steps:
