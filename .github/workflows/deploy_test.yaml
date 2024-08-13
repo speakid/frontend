@@ -41,10 +41,3 @@ jobs:
             docker stop speakid_frontend || true
             docker rm speakid_frontend || true
             docker run -d --name speakid_frontend -p 8081:80 syryx/speakid-frontend:test
-
-
-
-
-
-# 1) build to dockerhub -> pull from dockerhub
-# 2) Build and run on the server
