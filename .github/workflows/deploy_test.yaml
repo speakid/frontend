@@ -42,6 +42,7 @@ jobs:
           port: ${{ vars.TEST_PORT || 22 }}
           user: ${{ vars.TEST_USERNAME }}
           private_key: ${{ vars.TEST_PRIVATE_KEY }}
+          host_fingerprint: ${{ vars.TESTFINGERPRINT }}
           command: |
             docker pull syryx/speakid-frontend:test
             docker stop speakid_frontend || true
