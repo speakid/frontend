@@ -36,14 +36,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Pull and run on host
-        uses: D3rHase/ssh-command-action@v0.2.2
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ vars.TEST_HOST }}
-#          port: ${{ vars.TEST_PORT || 22 }}
-          user: ${{ vars.TEST_USERNAME }}
-          private_key: ${{ vars.TEST_PRIVATE_KEY }}
+          port: ${{ vars.TEST_PORT || 22 }}
+          username: ${{ vars.TEST_USERNAME }}
+          key: ${{ vars.TEST_PRIVATE_KEY }}
 #          fingerprint: ${{ vars.TEST_FINGERPRINT }}
-          command: |
+          script: |
             docker pull syryx/speakid-frontend:test
             docker stop speakid_frontend || true
             docker rm speakid_frontend || true
