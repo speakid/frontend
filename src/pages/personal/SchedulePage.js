@@ -1,23 +1,53 @@
 import PersonalDefaultPage from "./PersonalDefaultPage";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
-    OnestBoldBig, OnestBoldDefault,
-    OnestBoldMed,
-    OnestNormal, OnestNormalBig,
+    OnestBoldBig,
+    OnestNormalBig,
     OnestNormalDefault,
-    OnestNormalMed, OnestNormalSmall, OnestSemiBoldDefault
+    OnestNormalSmall, OnestSemiBoldBig, OnestSemiBoldDefault, OnestSemiBoldSmall
 } from "../../components/styled/TextComponents";
 import {
     color_black, color_blue, color_blue_light, color_green, color_green_light,
     color_grey_dark,
     color_grey_light,
     color_red_default,
-    color_red_light, color_red_ultra_light,
+    color_red_light, color_red_ultra_light, color_transparent,
     color_white, color_yellow, color_yellow_light
 } from "../../constants/colors";
-import {BsArrowLeft, BsArrowRight, BsArrowsAngleExpand, BsArrowsExpand, BsClock, BsDoorOpen} from "react-icons/bs";
+import {
+    BsArrowLeft,
+    BsArrowRight,
+    BsArrowsAngleExpand,
+    BsArrowsExpand,
+    BsClock,
+    BsDoorOpen, BsRepeat,
+    BsReply, BsReplyFill
+} from "react-icons/bs";
+import {useState} from "react";
+import {updateSchdeule} from "../../store/ScheduleSlice";
 
-const ScheduleHeader = () => {
+const ScheduleHeader = ({scheduleWeekRange, setScheduleWeekRange}) => {
+    const monthNames = ["ЯНВ", "ФЕВ", "МАР", "АПР", "МАЙ", "ИЮН", "ИЮЛ", "АВГ", "СЕН", "ОКТ", "НОЯ", "ДЕК"]
+
+    const scheduleWEekRangeShortString = () => {
+        console.log(scheduleWeekRange)
+        return `${scheduleWeekRange[0].getDate() < 10? `0${scheduleWeekRange[0].getDate()}` : scheduleWeekRange[0].getDate()} ${monthNames[scheduleWeekRange[0].getMonth()]} — ` +
+            `${scheduleWeekRange[1].getDate() < 10? `0${scheduleWeekRange[1].getDate()}` : scheduleWeekRange[1].getDate()} ${monthNames[scheduleWeekRange[0].getMonth()]}`
+    }
+
+
+    const setPreviousWeek = () => {
+        let weekStart = new Date(scheduleWeekRange[0]);
+        weekStart.setDate(weekStart.getDate() - 2);
+        setScheduleWeekRange(weekStart);
+    }
+
+    const setNextWeek = () => {
+        let weekEnd = new Date(scheduleWeekRange[1]);
+        weekEnd.setDate(weekEnd.getDate() + 1);
+        setScheduleWeekRange(weekEnd);
+    }
+
     return (
         <div style={{
             display: "flex",
@@ -49,8 +79,9 @@ const ScheduleHeader = () => {
                     alignContent: "center",
                     alignItems: "center",
                     padding: 5,
-                    fontSize: 20
-                }}>
+                    fontSize: 20,
+                    cursor: "pointer"
+                }} onClick={() => setPreviousWeek()}>
                     <BsArrowLeft/>
                 </div>
                 <div style={{
@@ -61,9 +92,10 @@ const ScheduleHeader = () => {
                     justifyContent: "center",
                     alignContent: "center",
                     alignItems: "center",
-                    padding: 5
+                    padding: 5,
+                    width: 150
                 }}>
-                    <OnestNormalDefault>12 АВГ — 18 АВГ</OnestNormalDefault>
+                    <OnestNormalDefault>{scheduleWEekRangeShortString()}</OnestNormalDefault>
                 </div>
                 <div style={{
                     backgroundColor: color_white,
@@ -78,8 +110,9 @@ const ScheduleHeader = () => {
                     alignContent: "center",
                     alignItems: "center",
                     padding: 5,
-                    fontSize: 20
-                }}>
+                    fontSize: 20,
+                    cursor: "pointer"
+                }} onClick={() => setNextWeek()}>
                     <BsArrowRight/>
                 </div>
             </div>
@@ -88,6 +121,16 @@ const ScheduleHeader = () => {
 }
 
 const ScheduleDayheader = ({weekday, lessonsCount}) => {
+    const weekDayString = () => {
+        const weekdays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+        return weekdays[getNormalizedWeekDay(weekday.getDay())]
+    }
+
+    function getNormalizedWeekDay(weekDay){
+        if(weekDay === 0) return 6
+        else return weekDay - 1
+    }
+
     return (
         <div style={{
             display: "flex",
@@ -95,24 +138,36 @@ const ScheduleDayheader = ({weekday, lessonsCount}) => {
             // justifyContent: "space-between",
             width: "100%"
         }}>
-            <OnestBoldDefault>{weekday}</OnestBoldDefault>
+            <OnestSemiBoldDefault>{weekDayString()}</OnestSemiBoldDefault>
             <OnestNormalDefault>*</OnestNormalDefault>
             <OnestNormalDefault>{lessonsCount} урока</OnestNormalDefault>
         </div>
     )
 }
 
-const ScheduleDayBodyHeader = ({day}) => {
+const ScheduleDayBodyHeader = ({day, weekday}) => {
     return (
         <div style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            // alignItems: "center"
         }}>
-            <OnestBoldBig>{day}</OnestBoldBig>
             <div style={{
-                width: 20,
-                height: 20,
+                width: 50,
+                height: 50,
+                backgroundColor: [6, 0].includes(weekday.getDay())? color_red_default : color_transparent,
+                color: [6, 0].includes(weekday.getDay())? color_white : color_black,
+                borderRadius: 5,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <OnestNormalBig style={{fontSize: 40}}>{day < 10? `0${day}` : `${day}`}</OnestNormalBig>
+            </div>
+            <div style={{
+                width: 25,
+                height: 25 ,
                 backgroundColor: color_red_default,
                 color: color_white,
                 borderRadius: "50%",
@@ -121,7 +176,8 @@ const ScheduleDayBodyHeader = ({day}) => {
                 justifyContent: "center",
                 alignItems: "center",
                 alignContent: "center",
-                fontSize: 13
+                fontSize: 10,
+                marginTop: 10
             }}>
                 <BsArrowsAngleExpand/>
             </div>
@@ -158,7 +214,6 @@ const LessonPreview = ({lessonData}) => {
     }
 
 
-
     return (
         <div style={{
             width: "100%",
@@ -170,15 +225,17 @@ const LessonPreview = ({lessonData}) => {
             boxSizing: "border-box",
             gap: 3
         }}>
-            <OnestSemiBoldDefault>{lessonData.studentName}</OnestSemiBoldDefault>
-            <OnestNormalDefault style={{color: lessonStatusColor}}>{lessonData.paymentStatus}</OnestNormalDefault>
+            <OnestSemiBoldSmall>{lessonData.studentName}</OnestSemiBoldSmall>
+            <OnestNormalSmall style={{color: lessonStatusColor}}>{lessonData.paymentStatus}</OnestNormalSmall>
             <div style={{
-                width: "90%",
+                width: "100%",
                 height: 28,
                 backgroundColor: color_white,
                 borderRadius: 10,
                 display: "flex",
-                flexDirection: "row"
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-evenly"
             }}>
                 <BsClock/>
                 <OnestNormalSmall>{lessonData.timeSlot}</OnestNormalSmall>
@@ -187,20 +244,20 @@ const LessonPreview = ({lessonData}) => {
     )
 }
 
-const ScheduleDayBody = ({day, lessons}) => {
+const ScheduleDayBody = ({day, weekday, lessons}) => {
     return (
         <div style={{
             display: "flex",
             flexDirection: "column",
-            backgroundColor: color_white,
             width: "100%",
             height: "100%",
             gap: 5,
             overflow: "scroll",
-            padding: 10
+            padding: 5,
+            boxSizing: "border-box"
 
         }}>
-            <ScheduleDayBodyHeader day={day}/>
+            <ScheduleDayBodyHeader day={day} weekday={weekday}/>
             <div style={{flexGrow: 1}}/>
             {lessons.map(el=><LessonPreview lessonData={el} />)}
         </div>
@@ -212,42 +269,144 @@ const ScheduleDay = ({weekday, day, lessons}) => {
         <div style={{
             display: "flex",
             flexDirection: "column",
-            width: 146,
-            height: 781,
+            width: 150,
+            height: "100%"
 
         }}>
             <ScheduleDayheader weekday={weekday} lessonsCount={lessons.length}/>
             <div style={{
                 width: "100%",
                 height: "100%",
-                backgroundColor: color_white
+                backgroundColor: color_white,
+                borderRadius: 10,
             }}>
-                <ScheduleDayBody day={day} lessons={lessons}/>
+                <ScheduleDayBody day={day} weekday={weekday} lessons={lessons}/>
             </div>
         </div>
     )
 }
 
-const ScheduleCalendar = ({schedule}) => {
+const ScheduleCalendar = ({schedule, weekDayRange}) => {
+    const weekFullRange = () => {
+        var weekDays = [];
+        let weekStart = new Date(weekDayRange[0]);
+        while (getNormalizedWeekDay(weekStart.getDay()) <= getNormalizedWeekDay(weekDayRange[1].getDay())){
+            weekDays.push(new Date(weekStart));
+            if(getNormalizedWeekDay(weekStart.getDay()) === getNormalizedWeekDay(weekDayRange[1].getDay())) break;
+            weekStart.setDate(weekStart.getDate() + 1);
+        }
+        return weekDays;
+    }
+
+    function getNormalizedWeekDay(weekDay){
+        if(weekDay === 0) return 7
+        else return weekDay
+    }
+
+    const scheduleToDays = splitScheduleByWeekDays(schedule);
+    function splitScheduleByWeekDays(schedule){
+        var scheduleByWeekDay = [];
+
+        weekFullRange().forEach(weekday => {
+            scheduleByWeekDay.push({
+                weekday: weekday,
+                lessons: schedule.filter(el=>el.dateDate.getDay() === weekday.getDay())
+            })
+        })
+        return scheduleByWeekDay
+    }
+
+
+
     return (
-        <div>
-            <ScheduleDay weekday={"ПН"} day={"01"} lessons={schedule}/>
+        <div style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 10,
+            height: "100%",
+        }}>
+            {scheduleToDays.map(el=><ScheduleDay weekday={el.weekday} day={el.weekday.getDate().toString()} lessons={el.lessons} />)}
+            {/*<ScheduleDay weekday={"ПН"} day={"01"} lessons={schedule}/>*/}
         </div>
     )
 }
 
 export const SchedulePage = () => {
     const schedule = useSelector(state => state.schedule);
+    const [scheduleWeekRange, setScheduleWeekRange] = useState(getWeekRangeForDate(new Date()));
+    const dispatch = useDispatch();
+
+    function getWeekRangeForDate(date){
+        const weekStart = new Date(date);
+        const weekEnd = new Date(date);
+
+        weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1)
+        weekEnd.setDate(weekEnd.getDate() - weekEnd.getDay() + 7)
+
+        return [weekStart, weekEnd]
+    }
+
+    function updateWeek(date){
+        setScheduleWeekRange(getWeekRangeForDate(date))
+        dispatch(updateSchdeule(getWeekLessonsFromApi(scheduleWeekRange)));
+    }
+
+    function getWeekLessonsFromApi(weekDayRange){
+        const weekFullRange = () => {
+            var weekDays = [];
+            let weekStart = new Date(weekDayRange[0]);
+            while (getNormalizedWeekDay(weekStart.getDay()) <= getNormalizedWeekDay(weekDayRange[1].getDay())){
+                weekDays.push(new Date(weekStart));
+                if(getNormalizedWeekDay(weekStart.getDay()) === getNormalizedWeekDay(weekDayRange[1].getDay())) break;
+                weekStart.setDate(weekStart.getDate() + 1);
+            }
+            return weekDays;
+        }
+        function getNormalizedWeekDay(weekDay){
+            if(weekDay === 0) return 6
+            else return weekDay - 1
+        }
+        const weekDayString = ({weekday}) => {
+            const weekdays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+            return weekdays[getNormalizedWeekDay(weekday.getDay())]
+        }
+        let baseId = 0;
+        let lessons = [];
+        let minLessons = 0;
+        let maxLessons = 7;
+        let counter = 0;
+        weekFullRange().forEach(weekDate=>{
+            let dayLessonsCount = parseInt(Math.random() * (maxLessons - minLessons) + minLessons);
+            let lessonsCounter = 0;
+            while(lessonsCounter < dayLessonsCount){
+                let minuteSlots = ["00", "30"];
+                let randomTime = parseInt(Math.random() * (18 - 6) + 6);
+                let randomMinute = minuteSlots[parseInt(Math.random() * (1))];
+                lessons.push({
+                    id: counter,
+                    studentName: "Наташа Сизова",
+                    dateDate: new Date(weekDate),
+                    timeSlot: `${randomTime < 10 ? `0${randomTime}` : `${randomTime}`}:${randomMinute}-${randomTime + 1 < 10? `0${randomTime + 1}` : `${randomTime + 1}`}:${randomMinute === "00"? "30" : "00"}`,
+                    paymentStatus: ["Оплачено", "Не оплачено", "Последний урок"][parseInt(Math.random() * (2))],
+                })
+                lessonsCounter += 1
+                counter+=1
+            }
+        })
+        return lessons
+    }
+
 
     return (
         <PersonalDefaultPage>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "100%"
+                width: "100%",
+                gap: 20
             }}>
-                <ScheduleHeader/>
-                <ScheduleCalendar schedule={schedule}/>
+                <ScheduleHeader scheduleWeekRange={scheduleWeekRange} setScheduleWeekRange={(date) => updateWeek(date)}/>
+                <ScheduleCalendar schedule={schedule} weekDayRange={scheduleWeekRange}/>
             </div>
         </PersonalDefaultPage>
     )
