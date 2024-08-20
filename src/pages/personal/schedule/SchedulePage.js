@@ -1,11 +1,11 @@
-import PersonalDefaultPage from "./PersonalDefaultPage";
+import PersonalDefaultPage from "../PersonalDefaultPage";
 import {useDispatch, useSelector} from "react-redux";
 import {
     OnestBoldBig,
     OnestNormalBig,
     OnestNormalDefault,
     OnestNormalSmall, OnestSemiBoldBig, OnestSemiBoldDefault, OnestSemiBoldSmall
-} from "../../components/styled/TextComponents";
+} from "../../../components/styled/TextComponents";
 import {
     color_black, color_blue, color_blue_light, color_green, color_green_light,
     color_grey_dark,
@@ -13,7 +13,7 @@ import {
     color_red_default,
     color_red_light, color_red_ultra_light, color_transparent,
     color_white, color_yellow, color_yellow_light
-} from "../../constants/colors";
+} from "../../../constants/colors";
 import {
     BsArrowLeft,
     BsArrowRight,
@@ -23,14 +23,16 @@ import {
     BsDoorOpen, BsRepeat,
     BsReply, BsReplyFill
 } from "react-icons/bs";
-import {useState} from "react";
-import {updateSchdeule} from "../../store/ScheduleSlice";
+import {useEffect, useState} from "react";
+import {updateSchdeule} from "../../../store/ScheduleSlice";
+import {ModalDefault} from "../../../components/containers/ModalDefault";
+import {updateDayLessonData} from "../../../store/ScheduleDayExtendedSlice";
+import {useNavigate} from "react-router-dom";
 
 const ScheduleHeader = ({scheduleWeekRange, setScheduleWeekRange}) => {
     const monthNames = ["ЯНВ", "ФЕВ", "МАР", "АПР", "МАЙ", "ИЮН", "ИЮЛ", "АВГ", "СЕН", "ОКТ", "НОЯ", "ДЕК"]
 
     const scheduleWEekRangeShortString = () => {
-        console.log(scheduleWeekRange)
         return `${scheduleWeekRange[0].getDate() < 10? `0${scheduleWeekRange[0].getDate()}` : scheduleWeekRange[0].getDate()} ${monthNames[scheduleWeekRange[0].getMonth()]} — ` +
             `${scheduleWeekRange[1].getDate() < 10? `0${scheduleWeekRange[1].getDate()}` : scheduleWeekRange[1].getDate()} ${monthNames[scheduleWeekRange[0].getMonth()]}`
     }
@@ -145,7 +147,10 @@ const ScheduleDayheader = ({weekday, lessonsCount}) => {
     )
 }
 
-const ScheduleDayBodyHeader = ({day, weekday}) => {
+const ScheduleDayBodyHeader = ({day, weekday, lessons}) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     return (
         <div style={{
             display: "flex",
@@ -163,7 +168,7 @@ const ScheduleDayBodyHeader = ({day, weekday}) => {
                 justifyContent: "center",
                 alignItems: "center"
             }}>
-                <OnestNormalBig style={{fontSize: 40}}>{day < 10? `0${day}` : `${day}`}</OnestNormalBig>
+                <OnestNormalBig style={{fontSize: 40}}>{day.getDate() < 10? `0${day.getDate()}` : `${day.getDate()}`}</OnestNormalBig>
             </div>
             <div style={{
                 width: 25,
@@ -179,7 +184,10 @@ const ScheduleDayBodyHeader = ({day, weekday}) => {
                 fontSize: 10,
                 marginTop: 10
             }}>
-                <BsArrowsAngleExpand/>
+                <BsArrowsAngleExpand onClick={()=>{
+                    dispatch(updateDayLessonData({date: day, lessons: lessons}))
+                    navigate("/service/schedule/day")
+                }}/>
             </div>
         </div>
     )
@@ -257,7 +265,7 @@ const ScheduleDayBody = ({day, weekday, lessons}) => {
             boxSizing: "border-box"
 
         }}>
-            <ScheduleDayBodyHeader day={day} weekday={weekday}/>
+            <ScheduleDayBodyHeader day={day} weekday={weekday} lessons={lessons}/>
             <div style={{flexGrow: 1}}/>
             {lessons.map(el=><LessonPreview lessonData={el} />)}
         </div>
@@ -325,11 +333,12 @@ const ScheduleCalendar = ({schedule, weekDayRange}) => {
             gap: 10,
             height: "100%",
         }}>
-            {scheduleToDays.map(el=><ScheduleDay weekday={el.weekday} day={el.weekday.getDate().toString()} lessons={el.lessons} />)}
+            {scheduleToDays.map(el=><ScheduleDay weekday={el.weekday} day={el.weekday} lessons={el.lessons} />)}
             {/*<ScheduleDay weekday={"ПН"} day={"01"} lessons={schedule}/>*/}
         </div>
     )
 }
+
 
 export const SchedulePage = () => {
     const schedule = useSelector(state => state.schedule);
@@ -347,9 +356,12 @@ export const SchedulePage = () => {
     }
 
     function updateWeek(date){
-        setScheduleWeekRange(getWeekRangeForDate(date))
-        dispatch(updateSchdeule(getWeekLessonsFromApi(scheduleWeekRange)));
+        setScheduleWeekRange(getWeekRangeForDate(date));
     }
+
+    useEffect(()=>{
+        dispatch(updateSchdeule(getWeekLessonsFromApi(scheduleWeekRange)))
+    },[scheduleWeekRange])
 
     function getWeekLessonsFromApi(weekDayRange){
         const weekFullRange = () => {
@@ -376,16 +388,21 @@ export const SchedulePage = () => {
         let maxLessons = 7;
         let counter = 0;
         weekFullRange().forEach(weekDate=>{
+            console.log(weekDate)
             let dayLessonsCount = parseInt(Math.random() * (maxLessons - minLessons) + minLessons);
             let lessonsCounter = 0;
             while(lessonsCounter < dayLessonsCount){
                 let minuteSlots = ["00", "30"];
                 let randomTime = parseInt(Math.random() * (18 - 6) + 6);
                 let randomMinute = minuteSlots[parseInt(Math.random() * (1))];
+                let lessonDate = new Date(weekDate)
+                lessonDate.setHours(randomTime)
+                lessonDate.setMinutes(randomMinute)
+                lessonDate.setSeconds(0)
                 lessons.push({
                     id: counter,
                     studentName: "Наташа Сизова",
-                    dateDate: new Date(weekDate),
+                    dateDate: lessonDate,
                     timeSlot: `${randomTime < 10 ? `0${randomTime}` : `${randomTime}`}:${randomMinute}-${randomTime + 1 < 10? `0${randomTime + 1}` : `${randomTime + 1}`}:${randomMinute === "00"? "30" : "00"}`,
                     paymentStatus: ["Оплачено", "Не оплачено", "Последний урок"][parseInt(Math.random() * (2))],
                 })

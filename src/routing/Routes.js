@@ -27,7 +27,8 @@ import {color_red_default} from "../constants/colors";
 import {IoLogOut} from "react-icons/io5";
 import {LevelLessonsPage} from "../pages/personal/LevelLessonsPage";
 import {LibraryPage} from "../pages/personal/LibraryPage";
-import {SchedulePage} from "../pages/personal/SchedulePage";
+import {SchedulePage} from "../pages/personal/schedule/SchedulePage";
+import {ScheduleDayExtended} from "../pages/personal/schedule/ScheduleDayExtended";
 
 export const routeList = [
     new AppRoute(
@@ -103,6 +104,10 @@ export const routeList = [
     new ProtectedAppRoute(
         "/service/program/level/:levelId",
         <LevelLessonsPage/>
+    ),
+    new ProtectedAppRoute(
+        "/service/schedule/day",
+        <ScheduleDayExtended/>
     )
 ]
 

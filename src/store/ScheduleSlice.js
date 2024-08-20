@@ -10,7 +10,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 12),
             timeSlot: "07:00-07:30",
             paymentStatus: "Не оплачено",
-            weekDay: "ПН"
+            weekDay: "ПН",
+            studentLevel: "A2"
         },
         {
             id: 1,
@@ -18,7 +19,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 12),
             timeSlot: "08:00-08:30",
             paymentStatus: "Оплачено",
-            weekDay: "ПН"
+            weekDay: "ПН",
+            studentLevel: "Pre-K"
         },
         {
             id: 3,
@@ -26,7 +28,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 12),
             timeSlot: "08:30-09:00",
             paymentStatus: "Последний урок",
-            weekDay: "ПН"
+            weekDay: "ПН",
+            studentLevel: "A2"
         },
         {
             id: 4,
@@ -34,7 +37,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 13),
             timeSlot: "07:00-07:30",
             paymentStatus: "Не оплачено",
-            weekDay: "ВТ"
+            weekDay: "ВТ",
+            studentLevel: "Pre-K"
         },
         {
             id: 5,
@@ -42,7 +46,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 13),
             timeSlot: "08:00-08:30",
             paymentStatus: "Оплачено",
-            weekDay: "ВТ"
+            weekDay: "ВТ",
+            studentLevel: "A2"
         },
         {
             id: 6,
@@ -50,7 +55,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 13),
             timeSlot: "08:30-09:00",
             paymentStatus: "Оплачено",
-            weekDay: "ВТ"
+            weekDay: "ВТ",
+            studentLevel: "Pre-K"
         },
         {
             id: 7,
@@ -58,7 +64,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 13),
             timeSlot: "09:00-09:30",
             paymentStatus: "Оплачено",
-            weekDay: "ВТ"
+            weekDay: "ВТ",
+            studentLevel: "A2"
         },
         {
             id: 8,
@@ -66,7 +73,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 13),
             timeSlot: "09:30-10:00",
             paymentStatus: "Последний урок",
-            weekDay: "ВТ"
+            weekDay: "ВТ",
+            studentLevel: "Pre-K"
         },
         {
             id: 9,
@@ -74,7 +82,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 14),
             timeSlot: "09:00-09:30",
             paymentStatus: "Не оплачено",
-            weekDay: "СР"
+            weekDay: "СР",
+            studentLevel: "A2"
         },
         {
             id: 10,
@@ -82,7 +91,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 14),
             timeSlot: "09:30-10:00",
             paymentStatus: "Оплачено",
-            weekDay: "СР"
+            weekDay: "СР",
+            studentLevel: "Pre-K"
         },
         {
             id: 11,
@@ -90,7 +100,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 14),
             timeSlot: "09:30-10:00",
             paymentStatus: "Последний урок",
-            weekDay: "СР"
+            weekDay: "СР",
+            studentLevel: "A2"
         },
         {
             id: 12,
@@ -98,7 +109,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 16),
             timeSlot: "09:30-10:00",
             paymentStatus: "Не оплачено",
-            weekDay: "ПТ"
+            weekDay: "ПТ",
+            studentLevel: "Pre-K"
         },
         {
             id: 13,
@@ -106,7 +118,8 @@ const ScheduleSlice = createSlice({
             dateDate: new Date(2024, 8, 16),
             timeSlot: "09:30-10:00",
             paymentStatus: "Последний урок",
-            weekDay: "ПТ"
+            weekDay: "ПТ",
+            stunedLevel: "A2"
         },
     ],
     reducers: {
