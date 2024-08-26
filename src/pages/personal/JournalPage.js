@@ -1,6 +1,15 @@
 import PersonalDefaultPage from "./PersonalDefaultPage";
 import {PageTitle} from "../../components/text/PageTitle";
-import {BsArrowsVertical, BsFillTrash3Fill, BsPlusLg, BsTrash, BsTrash2, BsTrash3} from "react-icons/bs";
+import {
+    BsArrowsVertical,
+    BsFillTrash3Fill,
+    BsPlusLg,
+    BsSortDown,
+    BsSortUp,
+    BsTrash,
+    BsTrash2,
+    BsTrash3
+} from "react-icons/bs";
 import {
     color_grey_dark, color_grey_light, color_grey_ultra_light,
     color_red_default,
@@ -49,22 +58,41 @@ const styles = {
     }
 }
 
-const JournalSearch = () => {
-
+const JournalSearch = ({searchWord, setSearchWord}) => {
 
     return (
         <div>
-            <OnestNormalDefault><input type={"text"} style={{...styles.journalSearch}} placeholder={"Найти ученика"}/></OnestNormalDefault>
+            <OnestNormalDefault>
+                <input
+                    type={"text"}
+                    style={{...styles.journalSearch}}
+                    placeholder={"Найти ученика"}
+                    value={searchWord}
+                    onChange={(e)=>setSearchWord(e.target.value)}
+                />
+            </OnestNormalDefault>
         </div>
     )
 }
-const JournalHeader = () => {
+const JournalHeader = ({searchWord, setSearchWord, sorting, setNextSorting}) => {
+
+    const sortingIcon = () => {
+        switch (sorting){
+            case "ASC": return <BsSortUp/>
+            case "DESC": return <BsSortDown/>
+            default: return <BsArrowsVertical/>
+        }
+    }
+
     return (
         <div style={{...styles.journalHeaderContainer}}>
             <PageTitle title={"Журнал учеников"}/>
             <div style={{flexGrow: 1}}/>
-            <JournalSearch/>
-            <div style={{...styles.journalHeaderButton}}><BsArrowsVertical/></div>
+            <JournalSearch searchWord={searchWord} setSearchWord={setSearchWord}/>
+            <div
+                style={{...styles.journalHeaderButton, cursor: "pointer"}}
+                onClick={()=>setNextSorting()}
+            >{sortingIcon()}</div>
             <div style={{...styles.journalHeaderButton}}><BsPlusLg/></div>
         </div>
     )
@@ -180,6 +208,7 @@ const JournalStudentLessons = ({studentLessons}) => {
 
 const JournalTableRow = ({studentData, onClick}) => {
     const [isHover, setIsHover] = useState(false);
+    const [isTrashHover, setIsTrashHover] = useState(false);
 
     return (
         <div style={{
@@ -198,16 +227,31 @@ const JournalTableRow = ({studentData, onClick}) => {
             <div style={{flex: 1.5}}><OnestNormalDefault>{studentData.balance / studentData.lessonPrice} занятий</OnestNormalDefault></div>
             <div style={{flex: 1.5}}><OnestNormalDefault>{studentData.englishLevel}</OnestNormalDefault></div>
             <div style={{flex: 1}}>
-                <div style={{...styles.journalHeaderButton, fontSize: 16, backgroundColor: color_grey_ultra_light, width: 32, height: 32}}><BsFillTrash3Fill/></div>
+                <div style={{
+                    ...styles.journalHeaderButton,
+                    fontSize: 16,
+                    backgroundColor: color_grey_ultra_light,
+                    width: 32,
+                    height: 32,
+                    cursor: "pointer",
+                    border: isTrashHover? `1px solid ${color_grey_light}` : null
+                }} onMouseEnter={()=>setIsTrashHover(true)} onMouseLeave={()=>setIsTrashHover(false)}><BsFillTrash3Fill/></div>
             </div>
         </div>
     )
 }
 
-const JournalTable = () => {
+const JournalTable = ({searchWord, sorting}) => {
     const navigate = useNavigate();
     const studentsJournal = useSelector(state => state.studentsJournal);
-    // const dispatch = useDispatch();
+
+    const sortedJournal = () => {
+        switch (sorting){
+            case "ASC": return [...studentsJournal].sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+            case "DESC": return [...studentsJournal].sort((a,b) => (b.name > a.name) ? 1 : ((a.name > b.name) ? -1 : 0))
+            default: return studentsJournal
+        }
+    }
 
     return (
         <div style={{
@@ -219,9 +263,9 @@ const JournalTable = () => {
             marginTop: 20,
             justifyContent: "space-around"
         }}>
-            <JournalTableHeader/>
+            <JournalTableHeader searchWord={searchWord}/>
             <div style={{height: 24}}/>
-            {studentsJournal.map(el=>
+            {sortedJournal().filter(el=>el.name.toLowerCase().includes(searchWord.toLowerCase())).map(el=>
                 <JournalTableRow studentData={el} onClick={()=>{navigate(`/service/students/${el.studentId}`)}}/>
             )}
         </div>
@@ -229,12 +273,27 @@ const JournalTable = () => {
 }
 
 const PersonalPage = () => {
+    const [searchWord, setSearchWord] = useState("");
+    const [journalSorting, setJournalSorting] = useState(null);
+
+    function setNextSorting(){
+        let sortingMethods = [null, "ASC", "DESC"];
+        let current = sortingMethods.indexOf(journalSorting)
+        let nextIndex = current + 1 <= sortingMethods.length - 1? current + 1 : current + 1 - sortingMethods.length
+        setJournalSorting(sortingMethods[nextIndex])
+    }
+
     return (
         <>
             <PersonalDefaultPage>
                 <div style={{padding: 20, width: "100%"}}>
-                    <JournalHeader/>
-                    <JournalTable/>
+                    <JournalHeader
+                        searchWord={searchWord}
+                        setSearchWord={(word)=>setSearchWord(word)}
+                        sorting={journalSorting}
+                        setNextSorting={()=>setNextSorting()}
+                    />
+                    <JournalTable searchWord={searchWord} sorting={journalSorting}/>
                 </div>
             </PersonalDefaultPage>
         </>

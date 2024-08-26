@@ -39,16 +39,6 @@ function parseEpochSecondsToStringDate(seconds){
 }
 
 
-// Логика работы меню
-// При сборке приложения проверять, что все пути прописаны в некое хранилище.
-// Получить все пути меню из хранилища
-// Отрисовать каждый путь
-
-// Варианты передачи иконки:
-// - Через prop
-// - Через children
-//
-
 const MenuItem = ({icon, path, name}) => {
     const [isSelected, setIsSelected] = useState(false)
     const location = useLocation()
@@ -98,7 +88,7 @@ const NavBar = ({userObject = new User(1, "satamaks@gmail.com", "Maxim Zubkov", 
     return (
         <div
         style={{
-            width: 240,
+            minWidth: 240,
             backgroundColor: color_white,
             borderTopRightRadius: 40,
             borderBottomRightRadius: 40,

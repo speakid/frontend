@@ -56,9 +56,9 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Маша Иванова",
         "englishLevel": "Beginner",
-        "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
+        "additionalInfo": "Маша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
             {
                 weekDay: "Вторник",
@@ -102,7 +102,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Вера Кузнецова",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -148,7 +148,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Никита Козлов",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -194,7 +194,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Лиза Попова",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -240,7 +240,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Варя Лебедева",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -286,7 +286,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Соня Соколова",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -332,7 +332,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Андрей Морозов",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -378,7 +378,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Василий Волков",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -424,7 +424,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Петр Зайцев",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [
@@ -470,7 +470,7 @@ const studentsJournalSlice = createSlice({
         "age": 10,
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRCEVIUp-xkd7m7fJFk-z6u6LbuLVCS6s8Qg&s",
         "payedLessons": parseInt(201/20),
-        "name": "Миша Смирнов",
+        "name": "Миша Богданов",
         "englishLevel": "Beginner",
         "additionalInfo": "Миша - “технарь”, ему сложно дается изучение языков. Английский учит для переезда за границу. Необходимо дать понимание базовых вещей, чтобы он мог влиться в общество.",
         "lessonsSchedule": [

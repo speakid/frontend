@@ -88,7 +88,6 @@ const StudentLesson = ({lessonData}) => {
 
 export const StudentLessonsProgram = () => {
     const student = useSelector(state=>state.student);
-    // const dispatch = useDispatch();
 
     return (
         <div style={{
@@ -124,11 +123,7 @@ export const StudentLessonsProgram = () => {
                 flexDirection: "column",
                 gap: 10
             }}>
-                {student.lessonsProgram.map(el=>
-                    {
-                        return <StudentLesson lessonData={el}/>
-                    }
-                )}
+                {student.lessonsProgram.map(el=><StudentLesson lessonData={el}/>)}
             </div>
         </div>
     )

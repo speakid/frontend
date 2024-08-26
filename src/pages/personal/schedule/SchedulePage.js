@@ -31,6 +31,7 @@ import {useNavigate} from "react-router-dom";
 
 const ScheduleHeader = ({scheduleWeekRange, setScheduleWeekRange}) => {
     const monthNames = ["ЯНВ", "ФЕВ", "МАР", "АПР", "МАЙ", "ИЮН", "ИЮЛ", "АВГ", "СЕН", "ОКТ", "НОЯ", "ДЕК"]
+    const monthFullNames = ["ЯНВАРЬ", "ФЕВАЛЬ", "МАРТ", "АПРЕЛЬ", "МАЙ", "ИЮНЬ", "ИЮЛЬ", "АВГУСТ", "СЕНТЯБРЬ", "ОКТЯБРЬ", "НОЯБРЬ", "ДЕКАБРЬ"]
 
     const scheduleWEekRangeShortString = () => {
         return `${scheduleWeekRange[0].getDate() < 10? `0${scheduleWeekRange[0].getDate()}` : scheduleWeekRange[0].getDate()} ${monthNames[scheduleWeekRange[0].getMonth()]} — ` +
@@ -60,8 +61,8 @@ const ScheduleHeader = ({scheduleWeekRange, setScheduleWeekRange}) => {
                 display: "flex",
                 flexDirection: "row"
             }}>
-                <OnestBoldBig>2024,<span> </span></OnestBoldBig>
-                <OnestNormalBig style={{color: color_grey_dark}}>Июль</OnestNormalBig>
+                <OnestBoldBig>{scheduleWeekRange[0].getFullYear()},<span> </span></OnestBoldBig>
+                <OnestNormalBig style={{color: color_grey_dark}}>{monthFullNames[scheduleWeekRange[0].getMonth()]}</OnestNormalBig>
             </div>
             <div style={{
                 display: "flex",
@@ -182,12 +183,14 @@ const ScheduleDayBodyHeader = ({day, weekday, lessons}) => {
                 alignItems: "center",
                 alignContent: "center",
                 fontSize: 10,
-                marginTop: 10
-            }}>
-                <BsArrowsAngleExpand onClick={()=>{
+                marginTop: 10,
+                cursor: "pointer"
+            }}
+            onClick={()=>{
                     dispatch(updateDayLessonData({date: day, lessons: lessons}))
                     navigate("/service/schedule/day")
-                }}/>
+            }}>
+                <BsArrowsAngleExpand />
             </div>
         </div>
     )

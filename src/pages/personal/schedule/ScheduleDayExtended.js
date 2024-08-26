@@ -28,7 +28,8 @@ const GoBackButton = () => {
             color: color_red_default,
             display: "flex",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            cursor: "pointer"
         }} onClick={()=>navigate(-1)}>
             <BsArrowLeft/>
         </div>
