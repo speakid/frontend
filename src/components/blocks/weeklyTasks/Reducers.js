@@ -6,7 +6,6 @@ export function tasksReducer(tasks, action) {
             }
             let tasksTemp = [...tasks]
             tasksTemp.push(...action.newTasks)
-            console.log("newTasks", tasksTemp)
             return tasksTemp
         }
         case "addOne": {

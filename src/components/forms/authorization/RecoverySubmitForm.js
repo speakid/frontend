@@ -26,7 +26,7 @@ const RecoverySubmitForm = () => {
         <FormDefault
             onSubmit={handleSubmit(data=>console.log(data))}
             title={"Забыли пароль?"}
-            description={"Пожалуйста, введите e-mail, указанный при регистрации. Мы пришлем на него инструкцию для создания нового пароля."}
+            // description={"Пожалуйста, введите e-mail, указанный при регистрации. Мы пришлем на него инструкцию для создания нового пароля."}
             formWidth={410}
         >
             <NewFormTextInput placeholder={"Новый пароль"} type={"password"} title={"Пароль"} register={register("newPassword")}/>

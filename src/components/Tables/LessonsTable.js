@@ -80,8 +80,8 @@ const FlexTableLessonRow = ({studentName, lessonTime, payedLessonsCount}) => {
                     alignItems: "left",
                     justifyContent: "center"
                 }}>
-                    {studentName.split(" ").map(el => {
-                        return <OnestNormalMed>{el}</OnestNormalMed>
+                    {studentName.split(" ").map((el, key) => {
+                        return <OnestNormalMed key={key}>{el}</OnestNormalMed>
                     })}
                 </div>
             </div>
@@ -110,8 +110,8 @@ const FlexTableHeader = ({columnNames}) => {
             display: "flex",
             flexDirection: "row"
         }}>
-            {columnNames.map(el => {
-                return <div style={{flex: 1}}>{el}</div>
+            {columnNames.map((el, key) => {
+                return <div key={key} style={{flex: 1}}>{el}</div>
             })}
         </div>
     )
@@ -128,8 +128,8 @@ const LessonsTable = ({lessonsList}) => {
                     gap: 28
                 }}>
                     <FlexTableHeader columnNames={["Имя", "Время", "Оплата", "Действия"]}/>
-                    {lessonsList.map(el => {
-                        return <FlexTableLessonRow studentName={el.studentName} lessonTime={el.time}
+                    {lessonsList.map((el, key) => {
+                        return <FlexTableLessonRow key={key} studentName={el.studentName} lessonTime={el.time}
                                                    payedLessonsCount={el.payedLessons}/>
                     })}
                 </div>

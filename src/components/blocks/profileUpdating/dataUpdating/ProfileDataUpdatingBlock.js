@@ -9,7 +9,7 @@ import {setUser, updateUser} from "../../../../store/UserSlice";
 import { useForm } from "react-hook-form";
 
 class User{
-    constructor(image, name, email, phoneNumber, timeZone, password) {
+    constructor(image, name, email, phoneNumber, timeZone, password, totalLessons, totalEarnings, nextLessonIn, lessonsList) {
         this.image = image
         this.name = name
         this.email = email
@@ -18,28 +18,16 @@ class User{
         this.password = password
         this.newPassword = null
         this.newPasswordRepeat = null
-    }
-}
-
-function userReducer(user, action){
-    console.log(action)
-    switch(action.type){
-        case "set": {
-            return action.user
-        }
-        case "update": {
-            return Object.assign(Object.create(Object.getPrototypeOf(action.user)), action.user)
-        }
-        case "delete": {
-            return null
-        }
-        default: {
-            throw Error("Unknown action.type for userReducer. ", action.type)
-        }
+        this.totalLessons = totalLessons
+        this.totalEarnings = totalEarnings
+        this.nextLessonIn = nextLessonIn
+        this.lessonsList = lessonsList
+        this.lastUpdated = new Date();
     }
 }
 
 export async function get_user(){
+
     await new Promise(r => setTimeout(r, 1500));
     return new User(
         "https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -47,7 +35,13 @@ export async function get_user(){
         "qwerxsd@mail.ru",
         "+7-999-999-99-99",
         "+3",
-        "asdasdasd"
+        "asdasdasd",
+        0,
+        0,
+        0,
+        [
+            // new LessonInfo("Миша Смирнов", "14:30", 1),
+        ]
     )
 }
 

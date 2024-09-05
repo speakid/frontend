@@ -7,17 +7,14 @@ import {WeeklyTask, WeeklyTasksList} from "../../components/blocks/weeklyTasks/w
 import {LessonInfo, UpcomingLessonsBlock} from "../../components/Tables/LessonsTable";
 import {ImageBlock} from "../../components/blocks/ImageBlock";
 import {IconInfoBlock} from "../../components/blocks/IconInfoBlock";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ProfileUpdatingModal} from "../../components/blocks/profileUpdating/profileUpdatingModal/ProfileUpdatingModal";
 import {ModalDefault} from "../../components/containers/ModalDefault";
+import {useDispatch, useSelector} from "react-redux";
+import {get_user} from "../../components/blocks/profileUpdating/dataUpdating/ProfileDataUpdatingBlock";
+import {InfinitySpin} from "react-loader-spinner";
+import {setUser} from "../../store/UserSlice";
 
-export const lessonsList = [
-    new LessonInfo("Миша Смирнов", "14:30", 1),
-    new LessonInfo("Марина Иванова", "15:30", 5),
-    new LessonInfo("Вера Максимова", "16:30", 5),
-    new LessonInfo("Нина Иванова", "17:30", 3),
-    new LessonInfo("Александра Ткачева", "18:30", 4),
-]
 
 export async function getWeeklyTasksList(){
     await new Promise(r => setTimeout(r, 1500));
@@ -45,42 +42,72 @@ export async function getLessonsList() {
     return lessonsList
 }
 
+
+
 const PersonalPage = () => {
     const [profileUpdatingState, setProfileUpdatingState] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const dispatch = useDispatch();
+    const userData = useSelector(state=>state.user);
+
+
+    useEffect(()=>{
+        if(
+            !(userData===null || userData==={}) &&
+            !((new Date() - userData.lastUpdated) / 1000 > 60*5) // force-update every 5 minutes?
+        ){
+            setIsLoading(false)
+        } else {
+            get_user().then(data=>{
+                setIsLoading(false)
+                dispatch(setUser(data))
+            });
+        }
+
+
+    }, [])
+
 
     return (
         <>
             <PersonalDefaultPage>
-                    <ProfileUpdatingModal isOpen={profileUpdatingState} onRequestClose={()=>setProfileUpdatingState(false)}/>
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 20,
-                    justifyContent: "space-between",
-                    width: 730
-                }}>
-                    <ImageBlock
-                        profileName={"Светлана Иванова"}
-                        imageLink={"https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-                        changeButtonHandler={()=>setProfileUpdatingState(true)}
-                    />
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 20,
-                        width: "100%"
-                    }}>
-                        <IconInfoBlock imageLink={CalendarImage} title={"110 уроков"} description={"Проведено"}></IconInfoBlock>
-                        <IconInfoBlock imageLink={CashImage} title={"12.550$"} description={"Мой баланс"}></IconInfoBlock>
-                        <IconInfoBlock imageLink={ClockImage} title={"15 мин."} description={"До урока"}></IconInfoBlock>
+                {
+                    isLoading?
+                        <InfinitySpin/>
+                        :
+                        <>
+                            <ProfileUpdatingModal isOpen={profileUpdatingState} onRequestClose={()=>setProfileUpdatingState(false)}/>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 20,
+                                justifyContent: "space-between",
+                                width: 730
+                            }}>
+                                <ImageBlock
+                                    profileName={userData.name}
+                                    imageLink={userData.imageLink}
+                                    changeButtonHandler={()=>setProfileUpdatingState(true)}
+                                />
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: 20,
+                                    width: "100%"
+                                }}>
+                                    <IconInfoBlock imageLink={CalendarImage} title={`${userData.totalLessons} уроков`} description={"Проведено"}></IconInfoBlock>
+                                    <IconInfoBlock imageLink={CashImage} title={`${userData.totalEarnings}$`} description={"Мой баланс"}></IconInfoBlock>
+                                    <IconInfoBlock imageLink={ClockImage} title={`${userData.nextLessonIn} мин.`} description={"До урока"}></IconInfoBlock>
 
-                    </div>
-                    <UpcomingLessonsBlock lessonsList={lessonsList}/>
-                </div>
-                <div style={{width: "fit-content", display: "flex", flexDirection: "column", gap: 20}}>
-                    <Calendar/>
-                    <WeeklyTasksList/>
-                </div>
+                                </div>
+                                <UpcomingLessonsBlock lessonsList={userData.lessonsList}/>
+                            </div>
+                            <div style={{width: "fit-content", display: "flex", flexDirection: "column", gap: 20}}>
+                                <Calendar/>
+                                <WeeklyTasksList/>
+                            </div>
+                        </>
+                }
             </PersonalDefaultPage>
         </>
     )

@@ -49,7 +49,6 @@ const LevelSelectorButtons = () => {
 
     const student = useSelector(state=>state.student);
     const dispatch = useDispatch();
-    console.log(watch("level") === null)
     return (
         <div style={{...styles.infoEditContainer}}>
             <OnestBoldSmall>Уровень языка</OnestBoldSmall>

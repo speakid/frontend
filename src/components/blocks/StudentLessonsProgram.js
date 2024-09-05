@@ -60,7 +60,6 @@ const StudentLesson = ({lessonData}) => {
                     backgroundColor: lessonData.completed? color_green_light : color_grey_ultra_light
                 }}>
                     <BsCheck2 style={{color: lessonData.completed? color_green : color_grey_light}} onClick={()=>{
-                        console.log(lessonData)
                         let studentCopy = JSON.parse(JSON.stringify(student))
                         studentCopy.lessonsProgram = studentCopy.lessonsProgram.map(el=> {
                             if(el.id === lessonData.id){

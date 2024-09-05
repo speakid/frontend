@@ -15,7 +15,7 @@ import {AppRoute} from "./AppRoute";
 import {MenuRoute} from "./MenuRoute";
 import PersonalPage from "../pages/personal/PersonalPage";
 import JournalPage from "../pages/personal/JournalPage";
-import { RedirectToLoginOrPersonal } from "../components/redirects/RedirectToLoginOrPersonal";
+import { RedirectToLoginIfNotAuthenticated } from "../components/redirects/RedirectToLoginIfNotAuthenticated";
 import { ProtectedAppRoute } from "./ProtectedAppRoute";
 import { StudentPage } from "../pages/personal/StudentPage";
 import SupportPage from "../pages/personal/SupportPage";
@@ -29,23 +29,24 @@ import {LevelLessonsPage} from "../pages/personal/LevelLessonsPage";
 import {LibraryPage} from "../pages/personal/LibraryPage";
 import {SchedulePage} from "../pages/personal/schedule/SchedulePage";
 import {ScheduleDayExtended} from "../pages/personal/schedule/ScheduleDayExtended";
+import {RedirectToPersonalIfAuthenticated} from "../components/redirects/RedirectToPersonalIfAuthenticated";
 
 export const routeList = [
     new AppRoute(
         "/",
-        <RedirectToLoginOrPersonal><PersonalPage/></RedirectToLoginOrPersonal>
+        <RedirectToLoginIfNotAuthenticated><PersonalPage/></RedirectToLoginIfNotAuthenticated>
     ),
     new AppRoute(
         "/auth/login",
-        <LoginPage/>
+        <RedirectToPersonalIfAuthenticated><LoginPage/></RedirectToPersonalIfAuthenticated>
     ),
     new AppRoute(
         "/auth/register",
-        <RegisterPage/>
+        <RedirectToPersonalIfAuthenticated><RegisterPage/></RedirectToPersonalIfAuthenticated>
     ),
     new AppRoute(
         "/auth/recovery",
-        <RecoveryPage/>
+        <RedirectToPersonalIfAuthenticated><RecoveryPage/></RedirectToPersonalIfAuthenticated>
     ),
     new MenuRoute(
         "/service/personal",

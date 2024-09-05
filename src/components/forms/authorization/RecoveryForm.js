@@ -7,7 +7,7 @@ import {ButtonDefault} from "../../controls/Button/ButtonDefault";
 import { useForm } from "react-hook-form";
 import { color_red_default, color_white } from "../../../constants/colors";
 
-const RecoveryForm = () => {
+const RecoveryForm = ({onSubmit}) => {
     const formRef = useRef(null);
 
     const {
@@ -19,16 +19,17 @@ const RecoveryForm = () => {
 
     
 
-    const loginSubmit = (event) => {
-        alert(event)
+    const loginSubmit = (data) => {
+        console.log(data)
+        alert("На вашу почту отправлена ссылка на восстановление")
     }
 
 
     return(
         <FormDefault
-            onSubmit={handleSubmit((data)=>console.log(data))}
+            onSubmit={handleSubmit((data)=>loginSubmit(data))}
             title={"Забыли пароль?"}
-            description={"Пожалуйста, введите e-mail, указанный при регистрации. Мы пришлем на него инструкцию для создания нового пароля."}
+            //description={"Пожалуйста, введите e-mail, указанный при регистрации. Мы пришлем на него инструкцию для создания нового пароля."}
             formWidth={410}
         >
             <NewFormTextInput placeholder={"example@mail.ru"} type={"email"} title={"Email"} register={register("email")}/>

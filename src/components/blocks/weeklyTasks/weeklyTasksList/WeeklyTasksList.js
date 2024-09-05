@@ -76,7 +76,7 @@ export const WeeklyTasksList = () => {
                             // If we have at least one task, then generate task row for each task
                             tasksList.map((el, index) => {
                                 return (
-                                    <WeeklyTaskRow task={el} isLastTask={index === tasksList.length - 1} toggleTaskCallBack={taskToggleCallback} />
+                                    <WeeklyTaskRow key={index} task={el} isLastTask={index === tasksList.length - 1} toggleTaskCallBack={taskToggleCallback} />
                                 )
                         })}
                     </LoadingContainer>

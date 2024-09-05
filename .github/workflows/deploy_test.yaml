@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and push to hub
         run: |
-          docker build -t syryx/speakid-frontend:test .
+          docker build --build-arg SENTRY_AUTH_TOKEN_ARG=${{ secrets.SENTRY_AUTH_TOKEN }} -t syryx/speakid-frontend:test .
           docker push syryx/speakid-frontend:test
 
   deploy-to-test-host:

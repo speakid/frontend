@@ -95,7 +95,7 @@ const CalendarBodyDays = ({ days }) => {
             {/*{days.map((day, index) => (*/}
             {/*    <CalendarDay key={index} day={day} />*/}
             {/*))}*/}
-            {splitDaysToWeekRows(days).map(week=><CalendarBodyRow days={week}/>)}
+            {splitDaysToWeekRows(days).map((week, key)=><CalendarBodyRow days={week} key={key}/>)}
         </div>
     );
 };

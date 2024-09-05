@@ -8,7 +8,7 @@ const RecoveryPage = () => {
 
     return(
         <AuthorizationBase>
-            {recoveryCodeSended === false? <RecoverySubmitForm/> : <RecoveryForm/>}
+            {recoveryCodeSended === false? <RecoveryForm onSubmit={()=>setRecoveryCodeSended()}/> : <RecoverySubmitForm/>}
         </AuthorizationBase>
     )
 }

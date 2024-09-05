@@ -4,7 +4,7 @@ import {ButtonOutlined} from "../controls/Button/ButtonOutlined";
 import {
     color_grey_light,
     color_red_default,
-    color_red_light,
+    color_red_light, color_red_ultra_light,
     color_transparent,
     color_white
 } from "../../constants/colors";
@@ -27,7 +27,9 @@ export const ImageBlock = ({imageLink, profileName, changeButtonHandler}) => {
                 // width: "100%",
                 height: "100%",
                 boxSizing: "border-box",
-                gap: 25
+                gap: 25,
+                borderRadius: imageLink!==null? null : "50%",
+                backgroundColor: imageLink!==null? null : color_red_ultra_light,
             }}>
                 <img
                     style={{
@@ -45,8 +47,8 @@ export const ImageBlock = ({imageLink, profileName, changeButtonHandler}) => {
                     alignItems: "left",
                     justifyContent: "center"
                 }}>
-                    {profileName.split(" ").map(el => {
-                        return <OnestSemiBoldBig>{el}</OnestSemiBoldBig>
+                    {profileName.split(" ").map((el, key) => {
+                        return <OnestSemiBoldBig key={key}>{el}</OnestSemiBoldBig>
                     })}
                 </div>
                 <div style={{flexGrow: 1}}/>

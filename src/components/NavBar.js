@@ -46,7 +46,6 @@ const MenuItem = ({icon, path, name}) => {
     const color = (isSelected || name ==="Выйти")? color_red_default : color_grey_light;
 
     useEffect(()=>{
-        console.log(location.pathname, path,location === path)
         setIsSelected(location.pathname === path)
     }, [path, location])
 
@@ -77,8 +76,8 @@ const NavMenu = () => {
             display: "flex",
             flexDirection: "column"
         }}>
-            {menuRouteList.map(el => {
-                return <MenuItem  path={el.path} name={el.name} icon={el.icon}></MenuItem>
+            {menuRouteList.map((el, key) => {
+                return <div style={{cursor: "pointer"}}><MenuItem key={key} path={el.path} name={el.name} icon={el.icon}></MenuItem></div>
             })}
         </div>
     )

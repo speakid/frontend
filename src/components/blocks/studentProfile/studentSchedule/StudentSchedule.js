@@ -12,7 +12,6 @@ const WeekdaySelectorButtons = () => {
 
     // const student = useSelector(state=>state.student);
     // const dispatch = useDispatch();
-    // console.log(watch("weekday"))
     return (
         <div style={{...styles.infoEditContainer}}>
             <OnestBoldSmall>День недели</OnestBoldSmall>
@@ -82,8 +81,6 @@ export const StudentScheduleEdit = () => {
             })
         }
     })
-    console.log(watch("weekday"))
-    console.log(watch("times"))
     return (
         <FormProvider {...{register, watch}}>
             <form 

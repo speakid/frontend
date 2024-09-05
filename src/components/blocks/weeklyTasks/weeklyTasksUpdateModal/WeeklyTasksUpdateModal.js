@@ -53,8 +53,9 @@ export const WeeklyTasksUpdateModal = ({isShown, onRequestClose}) => {
                 <BlockTitle title={"Мои задачи"}/>
                 <LoadingContainer isLoading={isLoading}>
                     <>
-                        {tasksList.map(el => {
+                        {tasksList.map((el, key) => {
                             return <WeeklyTaskModalRow
+                                key={key}
                                 task={el}
                                 onTaskChange={(updatedTask)=>tasksListDispatch({type: "update", updatedTask: updatedTask})}
                                 onTaskDeleteClick={(deletedTask) => tasksListDispatch({type: "delete", deletedTask: deletedTask})}

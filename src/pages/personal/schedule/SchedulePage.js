@@ -391,7 +391,6 @@ export const SchedulePage = () => {
         let maxLessons = 7;
         let counter = 0;
         weekFullRange().forEach(weekDate=>{
-            console.log(weekDate)
             let dayLessonsCount = parseInt(Math.random() * (maxLessons - minLessons) + minLessons);
             let lessonsCounter = 0;
             while(lessonsCounter < dayLessonsCount){

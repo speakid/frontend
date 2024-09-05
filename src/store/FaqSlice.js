@@ -49,10 +49,8 @@ const faqSlice = createSlice({
 ],
     reducers: {
         changeActive: (state, action) => {
-            console.log(action)
             return [...JSON.parse(JSON.stringify(state)).map(el=>{
                 el.active = el.id === action.payload;
-                console.log(el.active, el)
                 return el
             })]
         }
