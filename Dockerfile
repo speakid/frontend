@@ -6,7 +6,7 @@ ENV SENTRY_AUTH_TOKEN=SENTRY_AUTH_TOKEN_ARG
 COPY . .
 
 RUN npm install 
-RUN npm run build
+RUN PUBLIC_URL=/app npm run build
 
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
