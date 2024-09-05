@@ -22,6 +22,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: add sentry build token
+        run: export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+
       - name: Build and push to hub
         run: |
           docker build --build-arg SENTRY_AUTH_TOKEN_ARG=${{ secrets.SENTRY_AUTH_TOKEN }} -t syryx/speakid-frontend:test .
