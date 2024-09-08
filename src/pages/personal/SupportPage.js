@@ -16,6 +16,8 @@ import {OnestNormalDefault, OnestSemiBoldDefault, OnestSemiBoldSmall} from "../.
 import {useDispatch, useSelector} from "react-redux";
 import {BsDash, BsPlus} from "react-icons/bs";
 import {changeActive} from "../../store/FaqSlice";
+import Config from "../../Config";
+import axios from "axios";
 
 
 
@@ -68,6 +70,18 @@ const SupportPage = () => {
     const formHooks = useForm();
     const faqData = useSelector(state => state.faq);
 
+    function sendSupportRequest(data){
+        axios.post(Config.BACKEND_ADDR+"/support/new_request", data).then(response=>{
+            if(response.status === 200){
+                alert("Мы получили ваш запрос и ответим в ближайшее время")
+            } else{
+                alert("Ошибка при обработке запроса сервером")
+            }
+        }).catch(err => {
+            alert("Ошибка при отправке запроса на сервер")
+        })
+    }
+
     return (
         <FormProvider {...formHooks}>
             <PersonalDefaultPage>
@@ -80,7 +94,7 @@ const SupportPage = () => {
                         display: "flex",
                         flexDirection: "column",
                         gap: 20
-                    }} onSubmit={formHooks.handleSubmit((data)=>console.log(data))}>
+                    }} onSubmit={formHooks.handleSubmit((data)=>sendSupportRequest(data))}>
                         {/*<NewFormTextInput title={"Тема"} placeholder={"Введите тему сообщения"} register={register("theme")} inputBackgroundColor={color_white}/>*/}
                         {/*<NewFormTextInput title={"Тема"} placeholder={"Введите тему сообщения"} register={register("theme")} inputBackgroundColor={color_white}/>*/}
                         <TextInput title={"Тема"} placeholder={"Введите тему сообщения"} inputKey={"theme"} height={48}
