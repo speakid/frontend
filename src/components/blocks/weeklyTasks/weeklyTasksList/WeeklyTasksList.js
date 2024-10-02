@@ -9,6 +9,10 @@ import {LoadingContainer} from "../../../containers/LoadingContainer";
 import {styles} from "./Styles";
 import {tasksReducer} from "../Reducers";
 import {WeeklyTaskRow} from "./WeeklyTaskRow";
+import axios from "axios";
+import Config from "../../../../Config";
+import {useDispatch, useSelector} from "react-redux";
+import {removeTask, replaceAllTasks, updateTask} from "../../../../store/tasksListSlice";
 
 export class WeeklyTask {
     constructor(id, title) {
@@ -27,22 +31,25 @@ export class WeeklyTask {
  */
 export const WeeklyTasksList = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const [tasksList, tasksListDispatch] = useReducer(tasksReducer, []);
+    const tasksList = useSelector(state => state.tasksList);
     const [tasksUpdatingState, setTasksUpdatingState] = useState(false);
+    const dispatch = useDispatch();
 
-    const taskToggleCallback = (task)=>tasksListDispatch({type: "update", updatedTask: task})
+    const taskToggleCallback = (task)=>{
+        dispatch(updateTask({...task, completed: true}))
+        handleTaskRemove(task.id)
+    }
 
-    /**
-     * Get from api to dispatcher
-     * @returns {Promise<void>}
-     */
     async function getTasksFromServer() {
-
-        await new Promise(r => setTimeout(r, 1500));
         getWeeklyTasksList().then(res=>{
-            tasksListDispatch({type: "replaceAll", newTasks: res})
+            dispatch(replaceAllTasks(res))
             setIsLoading(false);
         });
+    }
+
+    async function handleTaskRemove(taskId){
+        let response = await axios.delete(Config.BACKEND_ADDR + `/tasks/${taskId}`)
+        await dispatch(removeTask(tasksList.find(el=>el.id === taskId)))
     }
 
     //Update tasks on mount

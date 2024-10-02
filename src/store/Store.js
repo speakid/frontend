@@ -7,6 +7,7 @@ import lessonsProgramReducer from "./LessonsProgramSlice";
 import libraryFilesReducer from "./LibraryFilesSlice";
 import scheduleReducer from "./ScheduleSlice";
 import scheduleDayExtendedReducer from "./ScheduleDayExtendedSlice";
+import tasksListSlice from "./tasksListSlice";
 
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     lessonsProgram: lessonsProgramReducer,
     libraryFiles: libraryFilesReducer,
     schedule: scheduleReducer,
-    scheduleDayExtended: scheduleDayExtendedReducer
+    scheduleDayExtended: scheduleDayExtendedReducer,
+    tasksList: tasksListSlice
 })
 
 export const store = configureStore({

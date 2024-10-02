@@ -1,8 +1,11 @@
 import PersonalDefaultPage from "./PersonalDefaultPage";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {LevelPreview} from "../../components/blocksl/LevelPreview";
 import {LevelDescriptionModal} from "../../components/LevelDescriptionModal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import Config from "../../Config";
+import {setAllLessons} from "../../store/LessonsProgramSlice";
 
 
 export const LessonsProgram = () => {
@@ -10,6 +13,33 @@ export const LessonsProgram = () => {
     const [selectedLevel, setSelectedLevel] = useState("");
     const [selectedSummary, setSelectedSummary] = useState("");
     const [showLevelDescription, setShowLevelDescription] = useState(false);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        axios.get(Config.BACKEND_ADDR + "/levels").then(res=>{
+            let levelsData = res.data
+            levelsData.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+            console.log("Levels: ", levelsData)
+            dispatch(setAllLessons(levelsData.map(el=>{
+                return {
+                    id: el.id,
+                    level: el.name,
+                    age: el.age_description,
+                    image: Config.CLOUD_ADDR + "/" + el.image_path,
+                    summary: el.description,
+                    lessons: [
+                        {
+                            id: 0,
+                            image: "https://i.ytimg.com/vi/ezmsrB59mj8/maxresdefault.jpg",
+                            name: "1 УРОК: ABC",
+                            level: "0",
+                            completed: true
+                        }
+                    ]
+                }
+            })))
+        })
+    }, [])
 
     function prepareAndOpenLevelDescription(level, summary){
         setSelectedSummary(summary)

@@ -1,10 +1,13 @@
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PersonalDefaultPage from "./PersonalDefaultPage";
 import {OnestBoldDefault, OnestNormalDefault} from "../../components/styled/TextComponents";
 import {BsPlus} from "react-icons/bs";
 import {color_grey_light, color_red_default, color_white} from "../../constants/colors";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import Config from "../../Config";
+import {setAllLessons} from "../../store/LessonsProgramSlice";
 
 const SearchBar = ({searchValue, setSearchValue}) => {
     return (
@@ -62,8 +65,6 @@ const LessonGridBlock = ({image, title}) => {
 export const LevelLessonsPage = () => {
     const {levelId} = useParams();
     const lessonsProgram = useSelector(state => state.lessonsProgram);
-    const levelData = lessonsProgram.find(el=>el.id === parseInt(levelId))
-
     const [searchValue, setSearchValue] = useState("")
 
 
@@ -77,7 +78,7 @@ export const LevelLessonsPage = () => {
                     flexWrap: "wrap",
                     gap: 20
                 }}>
-                    {levelData
+                    {lessonsProgram.find(el=>el.id === parseInt(levelId))
                         .lessons
                         .filter(el=> {
                             if(searchValue === "" || searchValue === null) return true

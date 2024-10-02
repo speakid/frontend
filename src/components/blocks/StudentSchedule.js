@@ -1,6 +1,6 @@
 import { color_black, color_grey_dark, color_grey_light, color_grey_ultra_light, color_transparent, color_white } from "../../constants/colors";
 import { Button } from "../controls/Button/Button";
-import { OnestNormalDefault } from "../styled/TextComponents";
+import {OnestNormalBig, OnestNormalDefault} from "../styled/TextComponents";
 import { BlockTitle } from "../text/BlockTitle";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -110,7 +110,14 @@ export const StudentSchedule = () => {
                             <StudentScheduleBlock text={el.time}/>
                         </div>
                     )
-                })}
+                })
+                }
+                {
+                    student.lessonsSchedule.length === 0 ?
+                        <OnestNormalBig>Расписание не назначено</OnestNormalBig>
+                        :
+                        null
+                }
             </div>
         </div>
     )

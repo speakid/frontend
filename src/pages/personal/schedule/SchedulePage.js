@@ -28,6 +28,11 @@ import {updateSchdeule} from "../../../store/ScheduleSlice";
 import {ModalDefault} from "../../../components/containers/ModalDefault";
 import {updateDayLessonData} from "../../../store/ScheduleDayExtendedSlice";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import Config from "../../../Config";
+import {addZeroToTime, weekDayToFullWeekName} from "../JournalPage";
+import {updateStudent} from "../../../store/StudentSlice";
+import {LoadingContainer} from "../../../components/containers/LoadingContainer";
 
 const ScheduleHeader = ({scheduleWeekRange, setScheduleWeekRange}) => {
     const monthNames = ["ЯНВ", "ФЕВ", "МАР", "АПР", "МАЙ", "ИЮН", "ИЮЛ", "АВГ", "СЕН", "ОКТ", "НОЯ", "ДЕК"]
@@ -298,6 +303,7 @@ const ScheduleDay = ({weekday, day, lessons}) => {
 }
 
 const ScheduleCalendar = ({schedule, weekDayRange}) => {
+    console.log("calendarGotSchdeule: ", schedule)
     const weekFullRange = () => {
         var weekDays = [];
         let weekStart = new Date(weekDayRange[0]);
@@ -347,6 +353,9 @@ export const SchedulePage = () => {
     const schedule = useSelector(state => state.schedule);
     const [scheduleWeekRange, setScheduleWeekRange] = useState(getWeekRangeForDate(new Date()));
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(true);
+
+    console.log("scheduleWeekRange", scheduleWeekRange)
 
     function getWeekRangeForDate(date){
         const weekStart = new Date(date);
@@ -362,8 +371,54 @@ export const SchedulePage = () => {
         setScheduleWeekRange(getWeekRangeForDate(date));
     }
 
+    function getUserLessonStatus(studentBalance, studentId){
+        let returnVal = "Последний урокк"
+        let balance = studentBalance[studentId].balance
+        let cost = studentBalance[studentId].cost
+        console.log(`studentBalance: id: ${studentId}, balance: ${balance}`)
+        if(balance - cost * 2 > 0){
+            returnVal = "Оплачено"
+        } else if (balance - cost <= 0){
+            returnVal = "Не оплачено"
+        } else {
+            returnVal = "Последний урок"
+        }
+        console.log(`studentBalance before changing: ${studentBalance}`)
+        studentBalance[studentId].balance = studentBalance[studentId].balance - cost
+        console.log(`studentBalance after changing: ${studentBalance}`)
+        return returnVal
+    }
+
+    async function loadData(){
+        let response = await axios.get(Config.BACKEND_ADDR + "/lessons")
+        let lessonsData = response.data
+        console.log("Got lessons from db: ", lessonsData)
+        let uniqueStudents = lessonsData.map(el=>el.student_id).filter((value, index, array) => array.indexOf(value) === index);
+        let studentsBalance = {}
+        for (let studentId of uniqueStudents){
+            response = await axios.get(Config.BACKEND_ADDR + `/students/${studentId}`)
+            studentsBalance[studentId] = {balance: response.data.balance, cost: response.data.lesson_cost}
+        }
+        dispatch(updateSchdeule(lessonsData.map(el=>{
+            let startTime = new Date(el.start_time)
+            let endTime = new Date(el.end_time)
+            return {
+                id: el.id,
+                studentName: el.student_name,
+                dateDate: startTime,
+                timeSlot:
+                    `${addZeroToTime(startTime.getHours())}:${addZeroToTime(startTime.getMinutes())} - ` +
+                    `${addZeroToTime(endTime.getHours())}:${addZeroToTime(endTime.getMinutes())}`,
+                paymentStatus: getUserLessonStatus(studentsBalance, el.student_id),
+                weekDay: weekDayToFullWeekName(el.weekday).short,
+                stunedLevel: "A2"
+            }
+        })))
+        // dispatch(updateSchdeule(getWeekLessonsFromApi(scheduleWeekRange)))
+    }
+
     useEffect(()=>{
-        dispatch(updateSchdeule(getWeekLessonsFromApi(scheduleWeekRange)))
+        loadData().then(()=>{setIsLoading(false)})
     },[scheduleWeekRange])
 
     function getWeekLessonsFromApi(weekDayRange){
@@ -424,8 +479,10 @@ export const SchedulePage = () => {
                 width: "100%",
                 gap: 20
             }}>
-                <ScheduleHeader scheduleWeekRange={scheduleWeekRange} setScheduleWeekRange={(date) => updateWeek(date)}/>
-                <ScheduleCalendar schedule={schedule} weekDayRange={scheduleWeekRange}/>
+                <LoadingContainer isLoading={isLoading}>
+                    <ScheduleHeader scheduleWeekRange={scheduleWeekRange} setScheduleWeekRange={(date) => updateWeek(date)}/>
+                    <ScheduleCalendar schedule={schedule.filter(el=>el.dateDate >= scheduleWeekRange[0] && el.dateDate <= scheduleWeekRange[1])} weekDayRange={scheduleWeekRange}/>
+                </LoadingContainer>
             </div>
         </PersonalDefaultPage>
     )

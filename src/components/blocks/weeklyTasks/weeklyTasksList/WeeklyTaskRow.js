@@ -3,6 +3,8 @@ import {BsCheck} from "react-icons/bs";
 import {color_black_ultra_light} from "../../../../constants/colors";
 import {OnestNormalMed} from "../../../styled/TextComponents";
 import React from "react";
+import {useDispatch} from "react-redux";
+import {updateTask} from "../../../../store/tasksListSlice";
 
 
 /**
@@ -14,6 +16,8 @@ import React from "react";
  * @constructor
  */
 export const WeeklyTaskRow = ({task, isLastTask, toggleTaskCallBack}) => {
+    const dispatch = useDispatch;
+
     return (
         <>
             <div style={{
@@ -26,7 +30,6 @@ export const WeeklyTaskRow = ({task, isLastTask, toggleTaskCallBack}) => {
                     ...styles.weeklyTaskCircle,
                     ...(task.completed && styles.completedWeeklyTaskCircle)
                 }} onClick={() => {
-                    task.completed = !task.completed
                     toggleTaskCallBack(task)
                 }}>
                     {task.completed ? <BsCheck/> : null}
@@ -34,7 +37,7 @@ export const WeeklyTaskRow = ({task, isLastTask, toggleTaskCallBack}) => {
                 <span style={{
                     color: color_black_ultra_light,
                     flexGrow: 1
-                }}><OnestNormalMed>{task.title}</OnestNormalMed></span>
+                }}><OnestNormalMed>{task.title} {task.completed}</OnestNormalMed></span>
             </div>
         </>
     )

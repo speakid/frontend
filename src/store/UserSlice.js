@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, current} from "@reduxjs/toolkit";
 
 const validatePayload = (action, isUpdate = false) => {
     if (!action || !action.payload) {
@@ -23,16 +23,14 @@ const validatePayload = (action, isUpdate = false) => {
 
 const userSlice = createSlice({
     name: "user",
-    initialState: null,
+    initialState: {},
     reducers: {
-        set: (state, action) => {
-            validatePayload(action)
-            return action.payload
-        },
-        remove: (state) => null,
+        set: (state, action) => action.payload,
+        remove: (state) => {},
         update: (state, action) => {
-            validatePayload(action, true)
-            return {...state, ...action.payload}
+            console.log("Current state: ", state);
+            console.log("Reducer updating user with action: ", action);
+            Object.assign(state, action.payload);
         }
     },
 

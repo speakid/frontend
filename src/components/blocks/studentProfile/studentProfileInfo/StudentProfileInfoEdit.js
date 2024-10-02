@@ -4,6 +4,10 @@ import {OnestBoldSmall, OnestNormalDefault, OnestNormalSmall, OnestSemiBoldSmall
 import { Button } from "../../../controls/Button/Button";
 import {color_grey_ultra_light, color_red_default, color_white} from "../../../../constants/colors";
 import {useDispatch, useSelector} from "react-redux";
+import config from "../../../../Config";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {updateStudent} from "../../../../store/StudentSlice";
 
 export const TextInput = ({multiline=false, width, height, title, placeholder = null, inputKey, defaultValue = null, inputBackgroundColor = null}) => {
     const {register} = useFormContext();
@@ -66,7 +70,9 @@ const LevelSelectorButtons = () => {
 
 export const StudentProfileInfoEdit = () => {
     const student = useSelector(state=>state.student);
+    const user = useSelector(state=>state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -75,11 +81,51 @@ export const StudentProfileInfoEdit = () => {
         formState: {errors}
     } = useForm()
 
+    function studentDataUpdateSubmit(data){
+        console.log(data, student)
+        if(student.studentId === -1){
+            axios.post(config.BACKEND_ADDR + "/students", {
+                name: data.name,
+                age: parseInt(data.age),
+                english_skill: data.level || student.englishLevel,
+                comment: data.additionalInfo
+            }).then(res=>{
+                navigate(`/service/students/${res.data.id}`)
+                window.location.reload();
+            }).catch((err)=>{
+                console.log(err)
+                alert("Ошибка обновления данных ученика")
+            })
+            return
+        }
+        axios.patch(config.BACKEND_ADDR + "/students", {
+            student_id: student.studentId,
+            name: data.name,
+            age: parseInt(data.age),
+            english_skill: data.level || student.englishLevel,
+            comment: data.additionalInfo,
+            teacher_id: user.id,
+            balance: student.balance
+        }).then(()=>{
+            dispatch(updateStudent({
+                studentId: student.studentId,
+                name: data.name,
+                age: parseInt(data.age),
+                englishLevel: data.level || student.englishLevel,
+                additionalInfo: data.additionalInfo,
+                balance: student.balance
+            }))
+        }).catch((err)=>{
+            console.log(err)
+            alert("Ошибка обновления данных ученика")
+        })
+    }
+
     return (
         <FormProvider {...{register, watch}}>
             <form 
                 style={{...styles.infoEditForm}}
-                onSubmit={handleSubmit((data)=>console.log(data))}
+                onSubmit={handleSubmit((data)=>studentDataUpdateSubmit(data))}
             >
                 <div style={{display: "flex", flexDirection: "row", gap: 10}}>
                     <TextInput width={205} height={50} title={"Имя и фамилия"} inputKey={"name"} defaultValue={student.name} inputBackgroundColor={color_grey_ultra_light}/>

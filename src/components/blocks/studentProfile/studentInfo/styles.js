@@ -23,7 +23,8 @@ export const styles = {
         bottom: 0,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        cursor: "pointer"
     },
     studentNameContainer: {
         // width: 240,

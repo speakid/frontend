@@ -33,9 +33,9 @@ export function tasksReducer(tasks, action) {
             return tasks.filter(task => task.id !== action.deletedTask.id)
         }
         case "replaceAll": {
-            if (action.newTasks === null || action.newTasks.length === 0) {
-                throw Error("No new tasks for replaceAll (tasksReducer)")
-            }
+            // if (action.newTasks === null || action.newTasks.length === 0) {
+            //     throw Error("No new tasks for replaceAll (tasksReducer)")
+            // }
             return [...action.newTasks]
         }
         default: {

@@ -30,7 +30,7 @@ export const FormPhoneInput = ({
                         defaultValue={defaultValue}
                         {...register}
                         required={required}
-                        placeholder={"+7 (999) 999 99 99"}
+                        placeholder={placeholder || "+7 (999) 999 99 99"}
                         style={{
                             width: "350px",
                             height: "50px",

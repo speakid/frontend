@@ -22,9 +22,15 @@ import {
     OnestNormalMed,
     OnestNormalSmall, OnestSemiBoldBig, OnestSemiBoldSmall
 } from "../../components/styled/TextComponents";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+import Config from "../../Config";
+import {getMyId} from "./PersonalPage";
+import {updateAllStudents} from "../../store/StudentsJournalSlice";
+import {InfinitySpin} from "react-loader-spinner";
+import {LoadingContainer} from "../../components/containers/LoadingContainer";
 
 const styles = {
     journalHeaderContainer: {
@@ -59,7 +65,6 @@ const styles = {
 }
 
 const JournalSearch = ({searchWord, setSearchWord}) => {
-
     return (
         <div>
             <OnestNormalDefault>
@@ -75,7 +80,7 @@ const JournalSearch = ({searchWord, setSearchWord}) => {
     )
 }
 const JournalHeader = ({searchWord, setSearchWord, sorting, setNextSorting}) => {
-
+    const navigate = useNavigate();
     const sortingIcon = () => {
         switch (sorting){
             case "ASC": return <BsSortUp/>
@@ -93,7 +98,7 @@ const JournalHeader = ({searchWord, setSearchWord, sorting, setNextSorting}) => 
                 style={{...styles.journalHeaderButton, cursor: "pointer"}}
                 onClick={()=>setNextSorting()}
             >{sortingIcon()}</div>
-            <div style={{...styles.journalHeaderButton}}><BsPlusLg/></div>
+            <div style={{...styles.journalHeaderButton}}><BsPlusLg onClick={()=>navigate("/service/students/new")}/></div>
         </div>
     )
 }
@@ -206,16 +211,18 @@ const JournalStudentLessons = ({studentLessons}) => {
     )
 }
 
-const JournalTableRow = ({studentData, onClick}) => {
+const JournalTableRow = ({studentData, onClick, deleteStudentHandler}) => {
     const [isHover, setIsHover] = useState(false);
     const [isTrashHover, setIsTrashHover] = useState(false);
+
 
     return (
         <div style={{
             display: "flex",
             flexDirection: "row",
             width: "100%",
-            height: 90,
+            height: "min-content",
+            minHeight: 90,
             paddingTop: 15,
             borderBottom: `1px solid ${color_grey_light}`,
             cursor: "pointer",
@@ -224,7 +231,7 @@ const JournalTableRow = ({studentData, onClick}) => {
         }} onClick={()=>onClick()} onMouseEnter={()=>setIsHover(true)} onMouseLeave={()=>setIsHover(false)}>
             <JorunalStudentPreviewData studentName={studentData.name}/>
             <JournalStudentLessons studentLessons={studentData.lessonsSchedule}/>
-            <div style={{flex: 1.5}}><OnestNormalDefault>{studentData.balance / studentData.lessonPrice} занятий</OnestNormalDefault></div>
+            <div style={{flex: 1.5}}><OnestNormalDefault>{parseInt(studentData.studentId !== -1 && studentData.lessonPrice !== 0? studentData.balance / studentData.lessonPrice : 0)} занятий</OnestNormalDefault></div>
             <div style={{flex: 1.5}}><OnestNormalDefault>{studentData.englishLevel}</OnestNormalDefault></div>
             <div style={{flex: 1}}>
                 <div style={{
@@ -235,15 +242,94 @@ const JournalTableRow = ({studentData, onClick}) => {
                     height: 32,
                     cursor: "pointer",
                     border: isTrashHover? `1px solid ${color_grey_light}` : null
-                }} onMouseEnter={()=>setIsTrashHover(true)} onMouseLeave={()=>setIsTrashHover(false)}><BsFillTrash3Fill/></div>
+                }} onMouseEnter={()=>setIsTrashHover(true)} onMouseLeave={()=>setIsTrashHover(false)}
+                onClick={(e)=>{
+                    e.stopPropagation()
+                    deleteStudentHandler()
+                }}
+                ><BsFillTrash3Fill/></div>
             </div>
         </div>
     )
 }
 
+export function weekDayToFullWeekName(weekDay){
+    let weekDayToNameMap = {
+        1: {
+            full: "Понедельник",
+            short: "ПН"
+        },
+        2: {
+            full: "Вторник",
+            short: "ВТ"
+        },
+        3: {
+            full: "Среда",
+            short: "СР"
+        },
+        4: {
+            full: "Четверг",
+            short: "ЧТ"
+        },
+        5: {
+            full: "Пятница",
+            short: "ПТ"
+        },
+        6: {
+            full: "Суббота",
+            short: "СБ"
+        },
+        7: {
+            full: "Воскресенье",
+            short: "ВС"
+        },
+    }
+    if(Object.keys(weekDayToNameMap).includes(weekDay.toString())) return weekDayToNameMap[weekDay]
+    return {full: "UNKNOWN", short: "UN"}
+}
+
+export function addZeroToTime(timeVal){
+    return parseInt(timeVal) < 10 ? `0${timeVal}` : `${timeVal}`
+}
+
+async function getStudents(){
+    let lessonsData = (await axios.get(Config.BACKEND_ADDR + `/lessons`)).data
+    console.log("lessonsData", lessonsData)
+    let studentsData = (await axios.get(Config.BACKEND_ADDR + `/students`)).data.map(studentData=>{
+        return {
+            studentId: studentData.id,
+            lessonPrice: studentData.lesson_cost,
+            balance: studentData.balance,
+            age: studentData.age,
+            image: studentData.image,
+            payedLessons: parseInt(studentData.balance / studentData.lesson_cost),
+            name: studentData.name,
+            englishLevel: studentData.english_skill,
+            additionalInfo: studentData.info,
+            lessonsSchedule: lessonsData.filter(el=>el.student_id === studentData.id && el.not_scheduled !== true).map(el=>{
+                let startTime = new Date(el.start_time)
+                let endTime = new Date(el.end_time)
+                return{
+                    weekDay: weekDayToFullWeekName(el.weekday).full,
+                    weekDayShort: weekDayToFullWeekName(el.weekday).short,
+                    time: `${addZeroToTime(startTime.getHours())}:${addZeroToTime(startTime.getMinutes())} - ${addZeroToTime(endTime.getHours())}:${addZeroToTime(endTime.getMinutes())}`
+                }
+            }).filter((value, index, self) =>
+              index === self.findIndex((t) => (
+                t.weekday === value.weekday && t.time === value.time
+              ))
+            ),
+            lessonsProgram: []
+        }
+    })
+    console.log("studentdsData", studentsData)
+    return studentsData
+}
+
 const JournalTable = ({searchWord, sorting}) => {
     const navigate = useNavigate();
     const studentsJournal = useSelector(state => state.studentsJournal);
+    const dispatch = useDispatch();
 
     const sortedJournal = () => {
         switch (sorting){
@@ -251,6 +337,13 @@ const JournalTable = ({searchWord, sorting}) => {
             case "DESC": return [...studentsJournal].sort((a,b) => (b.name > a.name) ? 1 : ((a.name > b.name) ? -1 : 0))
             default: return studentsJournal
         }
+    }
+
+    function deleteStudentHandler(studentData){
+        axios.delete(Config.BACKEND_ADDR + `/students/${studentData.studentId}`).then(()=>{
+            dispatch(updateAllStudents(studentsJournal.filter(el=>el.studentId !== studentData.studentId)))
+            alert("Ученик удален")
+        })
     }
 
     return (
@@ -266,7 +359,11 @@ const JournalTable = ({searchWord, sorting}) => {
             <JournalTableHeader searchWord={searchWord}/>
             <div style={{height: 24}}/>
             {sortedJournal().filter(el=>el.name.toLowerCase().includes(searchWord.toLowerCase())).map(el=>
-                <JournalTableRow studentData={el} onClick={()=>{navigate(`/service/students/${el.studentId}`)}}/>
+                <JournalTableRow
+                    studentData={el}
+                    onClick={()=>{navigate(`/service/students/${el.studentId}`)}}
+                    deleteStudentHandler={()=>deleteStudentHandler(el)}
+                />
             )}
         </div>
     )
@@ -275,6 +372,15 @@ const JournalTable = ({searchWord, sorting}) => {
 const PersonalPage = () => {
     const [searchWord, setSearchWord] = useState("");
     const [journalSorting, setJournalSorting] = useState(null);
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(()=>{
+        getStudents().then(res=>{
+            dispatch(updateAllStudents(res))
+            setIsLoading(false)
+        })
+    }, [])
 
     function setNextSorting(){
         let sortingMethods = [null, "ASC", "DESC"];
@@ -286,15 +392,17 @@ const PersonalPage = () => {
     return (
         <>
             <PersonalDefaultPage>
-                <div style={{padding: 20, width: "100%"}}>
-                    <JournalHeader
-                        searchWord={searchWord}
-                        setSearchWord={(word)=>setSearchWord(word)}
-                        sorting={journalSorting}
-                        setNextSorting={()=>setNextSorting()}
-                    />
-                    <JournalTable searchWord={searchWord} sorting={journalSorting}/>
-                </div>
+                <LoadingContainer isLoading={isLoading}>
+                    <div style={{padding: 20, width: "100%"}}>
+                        <JournalHeader
+                            searchWord={searchWord}
+                            setSearchWord={(word)=>setSearchWord(word)}
+                            sorting={journalSorting}
+                            setNextSorting={()=>setNextSorting()}
+                        />
+                        <JournalTable searchWord={searchWord} sorting={journalSorting}/>
+                    </div>
+                </LoadingContainer>
             </PersonalDefaultPage>
         </>
     )

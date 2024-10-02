@@ -9,14 +9,19 @@ import {
     color_white
 } from "../../constants/colors";
 import {BsArrowRight, BsBoxArrowLeft, BsFillPencilFill, BsFillTrash3Fill, BsPencil, BsTrash} from "react-icons/bs";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ReactModal from "react-modal";
 import {FormTextInput} from "../inputs/FormTextInput/FormTextInput";
 import {Button} from "../controls/Button/Button";
+import axios from "axios";
+import Config from "../../Config";
 
 
 
 export const ImageBlock = ({imageLink, profileName, changeButtonHandler}) => {
+    var profileName2 = "";
+    var imageLink2 = "";
+
 
     return (
         <DefaultContainer width={null} height={null}

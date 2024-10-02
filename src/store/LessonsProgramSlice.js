@@ -299,8 +299,11 @@ const lessonsProgramSlice = createSlice({
         },
     ],
     reducers: {
-
+        setAllLessons: (state, action)=>{
+            return [...action.payload]
+        }
     }
 })
 
+export const {setAllLessons} = lessonsProgramSlice.actions;
 export default lessonsProgramSlice.reducer;

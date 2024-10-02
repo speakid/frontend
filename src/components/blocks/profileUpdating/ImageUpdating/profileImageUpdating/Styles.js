@@ -14,7 +14,8 @@ export const styles = {
     profileImageUpdatingActionContainer: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        cursor: "pointer"
     },
     profileImageUpdatingActionIcon: {
         width: 32,

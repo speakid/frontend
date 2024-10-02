@@ -4,16 +4,21 @@ import {color_grey_light, color_white} from "../../constants/colors";
 import {OnestNormalMed, OnestNormalSmall} from "../styled/TextComponents";
 import {ButtonOutlined} from "../controls/Button/ButtonOutlined";
 import {BsArrowRight} from "react-icons/bs";
+import {useNavigate} from "react-router-dom";
+import {weekDayToFullWeekName} from "../../pages/personal/JournalPage";
 
 export class LessonInfo {
-    constructor(studentName, time, payedLessons) {
+    constructor(student_id, studentName, time, payedLessons) {
+        this.student_id = student_id
         this.studentName = studentName
         this.time = time
         this.payedLessons = payedLessons
     }
 }
 
-const FlexTableLessonRow = ({studentName, lessonTime, payedLessonsCount}) => {
+const FlexTableLessonRow = ({studentName, lessonTime, payedLessonsCount, studentId}) => {
+    const navigate = useNavigate();
+
     const studentColorList = [
         {
             "backgroundColor": "#9FBFFF",
@@ -97,7 +102,7 @@ const FlexTableLessonRow = ({studentName, lessonTime, payedLessonsCount}) => {
                     lineHeight: 1.5
                 }}>{payedLessonsCount} {lessonsCountEnding}</div>
             </div>
-            <div style={{flex: 1}}>
+            <div style={{flex: 1}} onClick={()=>navigate(`/service/students/${studentId}`)}>
                 <ButtonOutlined width={150} height={30} active={true} borderColor={color_grey_light}
                                 color={color_grey_light} fontSize={14}>Открыть ученика <BsArrowRight/></ButtonOutlined>
             </div>
@@ -117,6 +122,8 @@ const FlexTableHeader = ({columnNames}) => {
     )
 }
 const LessonsTable = ({lessonsList}) => {
+
+
     return (
         <>
             <BlockTitle title={"Ближайшие уроки"}/>
@@ -129,8 +136,8 @@ const LessonsTable = ({lessonsList}) => {
                 }}>
                     <FlexTableHeader columnNames={["Имя", "Время", "Оплата", "Действия"]}/>
                     {lessonsList.map((el, key) => {
-                        return <FlexTableLessonRow key={key} studentName={el.studentName} lessonTime={el.time}
-                                                   payedLessonsCount={el.payedLessons}/>
+                        return <FlexTableLessonRow key={key} studentName={el.studentName} lessonTime={weekDayToFullWeekName(el.weekday).short + " " + el.time}
+                                                   payedLessonsCount={el.payedLessons} studentId={el.student_id}/>
                     })}
                 </div>
             }

@@ -23,7 +23,6 @@ const RecoveryForm = ({}) => {
     
 
     const loginSubmit = (data) => {
-        console.log(data)
         axios.post(Config.BACKEND_ADDR + "/auth/recovery", data={
             email: data.email,
             base_recovery_url: window.location.origin+window.location.pathname
@@ -34,7 +33,6 @@ const RecoveryForm = ({}) => {
                 setRecoverySended(true)
             }
         }).catch(err => {
-            console.log(err)
             alert("Ошибка запроса на сервер приложения")
         })
     }

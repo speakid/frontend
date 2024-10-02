@@ -25,7 +25,7 @@ export const Button: FC<ButtonProps> = ({
     color,
     borderColor,
     fontSize,
-    type = null
+    type = null,
 }) => {
     const buttonStyle = {
             width: width,

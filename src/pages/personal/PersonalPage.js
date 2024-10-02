@@ -9,39 +9,30 @@ import {ImageBlock} from "../../components/blocks/ImageBlock";
 import {IconInfoBlock} from "../../components/blocks/IconInfoBlock";
 import React, {useEffect, useState} from "react";
 import {ProfileUpdatingModal} from "../../components/blocks/profileUpdating/profileUpdatingModal/ProfileUpdatingModal";
-import {ModalDefault} from "../../components/containers/ModalDefault";
 import {useDispatch, useSelector} from "react-redux";
 import {get_user} from "../../components/blocks/profileUpdating/dataUpdating/ProfileDataUpdatingBlock";
 import {InfinitySpin} from "react-loader-spinner";
 import {setUser} from "../../store/UserSlice";
+import axios from "axios";
+import Config from "../../Config";
+import Cookies from "js-cookie";
+import {LogOut} from "../../components/redirects/LogOut";
+import {LoadingContainer} from "../../components/containers/LoadingContainer";
 
 
+export async function getMyId(){
+    let id = Cookies.get('user_id');
+    if (id === null || id === undefined){
+        LogOut()
+    }
+    return id
+}
 export async function getWeeklyTasksList(){
-    await new Promise(r => setTimeout(r, 1500));
-    // TODO: Api call
-    const weeklyTasksList = [
-        new WeeklyTask(0, "Заполнить расписание на февраль"),
-        new WeeklyTask(1, "Распечатать реквизит для уроков"),
-        new WeeklyTask(2, "Назначить программу занятий для Вики Петровой"),
-        new WeeklyTask(3, "Проверить домашнее задание Никиты Потапова"),
-        new WeeklyTask(4, "Напомнить про оплаты новеньким"),
-    ]
-    return weeklyTasksList
+    let response = await axios.get(Config.BACKEND_ADDR + `/tasks/user_tasks/${await getMyId()}`)
+    let userTasksData = response.data
+    console.log("userTasksData", userTasksData);
+    return userTasksData.map(el=>new WeeklyTask(el.id, el.task_text),)
 }
-
-export async function getLessonsList() {
-    await new Promise(r => setTimeout(r, 1500));
-    // TODO: Api call
-    const lessonsList = [
-        new LessonInfo("Миша Смирнов", "14:30", 1),
-        new LessonInfo("Марина Иванова", "15:30", 5),
-        new LessonInfo("Вера Максимова", "16:30", 5),
-        new LessonInfo("Нина Иванова", "17:30", 3),
-        new LessonInfo("Александра Ткачева", "18:30", 4),
-    ]
-    return lessonsList
-}
-
 
 
 const PersonalPage = () => {
@@ -52,31 +43,19 @@ const PersonalPage = () => {
 
 
     useEffect(()=>{
-        if(
-            !(userData===null || userData==={}) &&
-            !((new Date() - userData.lastUpdated) / 1000 > 60*5) // force-update every 5 minutes?
-        ){
-            setIsLoading(false)
-        } else {
-            get_user().then(data=>{
+        get_user().then(data=>{
                 setIsLoading(false)
+                console.log("userData: ", data)
                 dispatch(setUser(data))
             });
-        }
-
-
     }, [])
 
 
     return (
         <>
             <PersonalDefaultPage>
-                {
-                    isLoading?
-                        <InfinitySpin/>
-                        :
-                        <>
-                            <ProfileUpdatingModal isOpen={profileUpdatingState} onRequestClose={()=>setProfileUpdatingState(false)}/>
+                <LoadingContainer isLoading={isLoading}>
+                    <ProfileUpdatingModal isOpen={profileUpdatingState} onRequestClose={()=>setProfileUpdatingState(false)}/>
                             <div style={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -86,7 +65,7 @@ const PersonalPage = () => {
                             }}>
                                 <ImageBlock
                                     profileName={userData.name}
-                                    imageLink={userData.imageLink}
+                                    imageLink={userData.image}
                                     changeButtonHandler={()=>setProfileUpdatingState(true)}
                                 />
                                 <div style={{
@@ -97,17 +76,21 @@ const PersonalPage = () => {
                                 }}>
                                     <IconInfoBlock imageLink={CalendarImage} title={`${userData.totalLessons} уроков`} description={"Проведено"}></IconInfoBlock>
                                     <IconInfoBlock imageLink={CashImage} title={`${userData.totalEarnings}$`} description={"Мой баланс"}></IconInfoBlock>
-                                    <IconInfoBlock imageLink={ClockImage} title={`${userData.nextLessonIn} мин.`} description={"До урока"}></IconInfoBlock>
+                                    {
+                                        userData.nextLessonIn > -1?
+                                            <IconInfoBlock imageLink={ClockImage} title={`${userData.nextLessonIn > 60? parseInt(userData.nextLessonIn / 60) : userData.nextLessonIn} ${userData.nextLessonIn > 60? "ч" : "мин"}.`} description={"До урока"}></IconInfoBlock>
+                                            :
+                                            <IconInfoBlock imageLink={ClockImage} title={`Нет следующего урока`} description={""}></IconInfoBlock>
+                                    }
 
                                 </div>
-                                <UpcomingLessonsBlock lessonsList={userData.lessonsList}/>
+                                <UpcomingLessonsBlock lessonsList={userData.lessonsList || []}/>
                             </div>
                             <div style={{width: "fit-content", display: "flex", flexDirection: "column", gap: 20}}>
                                 <Calendar/>
                                 <WeeklyTasksList/>
                             </div>
-                        </>
-                }
+                </LoadingContainer>
             </PersonalDefaultPage>
         </>
     )

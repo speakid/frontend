@@ -38,7 +38,6 @@ const RecoverySubmitForm = ({token}) => {
                 navigate("/service/personal/")
             }
         }).catch(err => {
-            console.log(err);
             if(err.status === 409){
                 alert("Данная ссылка на восстановление уже была использована")
                 return

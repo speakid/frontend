@@ -511,7 +511,7 @@ const studentsJournalSlice = createSlice({
     },
     ],
     reducers: {
-        updateAll: (state, action) => {
+        updateAllStudents: (state, action) => {
             return action.payload
         },
         removeStudent: (state, action) => {
@@ -520,6 +520,6 @@ const studentsJournalSlice = createSlice({
     }
 });
 
-export const {updateAll, removeStudent} = studentsJournalSlice.actions;
+export const {updateAllStudents, removeStudent} = studentsJournalSlice.actions;
 
 export default studentsJournalSlice.reducer;

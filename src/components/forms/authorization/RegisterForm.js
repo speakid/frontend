@@ -113,29 +113,29 @@ const RegisterForm = () => {
             onSubmit={handleSubmit(data=>loginSubmit(data))}
             title={"Регистрация"}
             formWidth={410}
-        >
-            <NewFormTextInput placeholder={"example@mail.ru"} type={"email"} title={"Email"}  register={register("email")} required={true}/>
-            <NewFormTextInput placeholder={"Иван Петров"} type={"text"} title={"Имя и фамилия"} register={register("name")} required={true}/>
-            <FormPhoneInput placeholder={"+7 (888) 888 88 88"} type={"tel"} title={"Номер телефона"} register={register("phone")} required={true}/>
-            <NewFormTextInput placeholder={"Введите пароль"} type={"password"} title={"Пароль"} register={register("password")} required={true}/>
-            <NewFormTextInput placeholder={"Введите пароль"} type={"password"} title={"Повторите пароль"} register={register("passwordRepeat")} required={true}/>
+            >
+                <NewFormTextInput placeholder={"example@mail.ru"} type={"email"} title={"Email"}  register={register("email")} required={true}/>
+                <NewFormTextInput placeholder={"Иван Петров"} type={"text"} title={"Имя и фамилия"} register={register("name")} required={true}/>
+                <FormPhoneInput placeholder={"+7 (888) 888 88 88"} type={"tel"} title={"Номер телефона"} register={register("phone")} required={true}/>
+                <NewFormTextInput placeholder={"Введите пароль"} type={"password"} title={"Пароль"} register={register("password")} required={true}/>
+                <NewFormTextInput placeholder={"Введите пароль"} type={"password"} title={"Повторите пароль"} register={register("passwordRepeat")} required={true}/>
 
-            <Button backgroundColor={color_red_default} color={color_white} outline={false} width={350} height={63} active={true} type={"submit"} >Зарегистрироваться</Button>
-            <div style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                gap: 5,
-                justifyContent: "flex-end",
-                marginTop: -20
-            }}>
-                <FormCheckBox name={"acceptForRules"} control={control}/>
-                <OnestNormalSmall>
-                    Я даю согласие
-                    <Link href={"/"}>на обработку персональных данных</Link>
-                </OnestNormalSmall>
-            </div>
-            
+                <Button backgroundColor={color_red_default} color={color_white} outline={false} width={350} height={63} active={true} type={"submit"} >Зарегистрироваться</Button>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    gap: 5,
+                    justifyContent: "flex-end",
+                    marginTop: -20
+                }}>
+                    <FormCheckBox name={"acceptForRules"} control={control}/>
+                    <OnestNormalSmall>
+                        Я даю согласие
+                        <Link href={"/"}>на обработку персональных данных</Link>
+                    </OnestNormalSmall>
+                </div>
+
         </FormDefault>
         </FormProvider>
     )

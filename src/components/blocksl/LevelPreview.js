@@ -35,6 +35,7 @@ export const LevelPreview = ({levelData, openLevelDescription}) => {
     const [bouncing, setBouncing] = useState(false);
     const navigate = useNavigate();
 
+    console.log(levelData.image)
     return (
         <BouncingDiv
             bouncing={bouncing}
@@ -49,7 +50,7 @@ export const LevelPreview = ({levelData, openLevelDescription}) => {
             flexDirection: "column",
             padding: 25,
             boxSizing: "border-box",
-            backgroundImage: `url(https://i.ibb.co/Y3ZFdC3/Rectangle-3463809.png)`,
+            backgroundImage: `url(${levelData.image})`,
             backgroundSize: "70%",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "128% -40%",

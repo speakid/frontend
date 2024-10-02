@@ -14,9 +14,10 @@ export const WeeklyTaskModalRow = ({task, onTaskChange, onTaskDeleteClick}) => {
                     <textarea
                         value={task.title}
                         onChange={(e) => {
-                            task.title = e.target.value
-                            task.updated = true
-                            onTaskChange(task)
+                            let newTaskData = {...task}
+                            newTaskData.title = e.target.value
+                            newTaskData.updated = true
+                            onTaskChange(newTaskData)
                         }}
                         placeholder={"Введите текст задачи"}
                         style={{...styles.weeklyTasksModalTextArea}}

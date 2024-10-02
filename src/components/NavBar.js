@@ -13,6 +13,7 @@ import {
 } from "../constants/colors";
 import {BsArrowLeft, BsArrowRight, BsBoxArrowLeft} from "react-icons/bs";
 import {ButtonDefault} from "./controls/Button/ButtonDefault";
+import {useSelector} from "react-redux";
 
 class User{
     constructor(
@@ -83,7 +84,9 @@ const NavMenu = () => {
     )
 }
 
-const NavBar = ({userObject = new User(1, "satamaks@gmail.com", "Maxim Zubkov", "+7-999-789-06-54", 1719829708, 3)}) => {
+const NavBar = () => {
+    const user = useSelector(state=>state.user);
+
     return (
         <div
         style={{
@@ -108,7 +111,7 @@ const NavBar = ({userObject = new User(1, "satamaks@gmail.com", "Maxim Zubkov", 
                    alignItems: "center",
                 }}>
                     <OnestNormalSmall>Подписка оплачена до:</OnestNormalSmall>
-                    <OnestBoldDefault>{parseEpochSecondsToStringDate(userObject.endOfSubscriptionTime)}</OnestBoldDefault>
+                    <OnestBoldDefault>{user.endOfSubscriptionTime? parseEpochSecondsToStringDate(user.endOfSubscriptionTime):null}</OnestBoldDefault>
                 </div>
                 <div style={{marginTop: 20}}><ButtonDefault width={145} height={40} active={true}>Продлить</ButtonDefault></div>
                 <div style={{marginTop: 100}}><NavMenu/></div>
