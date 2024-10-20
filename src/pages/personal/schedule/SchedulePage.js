@@ -192,6 +192,7 @@ const ScheduleDayBodyHeader = ({day, weekday, lessons}) => {
                 cursor: "pointer"
             }}
             onClick={()=>{
+                    console.log("dayLessons: ", lessons)
                     dispatch(updateDayLessonData({date: day, lessons: lessons}))
                     navigate("/service/schedule/day")
             }}>

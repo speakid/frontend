@@ -87,8 +87,8 @@ const PersonalPage = () => {
                                 <UpcomingLessonsBlock lessonsList={userData.lessonsList || []}/>
                             </div>
                             <div style={{width: "fit-content", display: "flex", flexDirection: "column", gap: 20}}>
-                                <Calendar/>
                                 <WeeklyTasksList/>
+                                <Calendar/>
                             </div>
                 </LoadingContainer>
             </PersonalDefaultPage>

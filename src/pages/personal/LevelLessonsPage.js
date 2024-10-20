@@ -67,6 +67,10 @@ export const LevelLessonsPage = () => {
     const lessonsProgram = useSelector(state => state.lessonsProgram);
     const [searchValue, setSearchValue] = useState("")
 
+    useEffect(()=>{
+        // axios.get(Config.BACKEND_ADDR + `/lessons`).
+    })
+
 
     return (
         <PersonalDefaultPage>
@@ -85,7 +89,7 @@ export const LevelLessonsPage = () => {
                             return el.name.toLowerCase().includes(searchValue.toLowerCase())
                         })
                         .map(el=>(
-                            <LessonGridBlock image={el.image} title={el.name}/>
+                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name} />
                         ))}
                 </div>
             </div>

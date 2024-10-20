@@ -128,6 +128,8 @@ export const ScheduleDayExtended = () => {
 
     const dayData = useSelector(state => state.scheduleDayExtended);
     const timeSlots = generateTimeSlots(dayData.date);
+    console.log("dayData: ", dayData)
+    console.log("timeSlots: ", timeSlots)
 
     function generateTimeSlots(date){
         let startDate = new Date(date);

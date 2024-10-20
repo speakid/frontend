@@ -27,15 +27,16 @@ export const LessonsProgram = () => {
                     age: el.age_description,
                     image: Config.CLOUD_ADDR + "/" + el.image_path,
                     summary: el.description,
-                    lessons: [
-                        {
-                            id: 0,
-                            image: "https://i.ytimg.com/vi/ezmsrB59mj8/maxresdefault.jpg",
-                            name: "1 УРОК: ABC",
-                            level: "0",
+                    lessons: el.materials.map(material=>{
+                        return {
+                            id: material.id,
+                            image: material.image_path,
+                            file: material.index_html_path,
+                            level: material.level_id,
+                            name: material.name,
                             completed: true
                         }
-                    ]
+                    })
                 }
             })))
         })
