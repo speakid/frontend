@@ -43,7 +43,7 @@ const LessonGridBlock = ({image, title}) => {
             borderRadius: 20
         }}>
             <div style={{display: "flex", justifyContent: "center"}}>
-                <img alt={"lessonImage"} style={{
+                <img alt={image} style={{
                     width: 218,
                     height: 141,
                     border: 20,
@@ -66,7 +66,6 @@ export const LevelLessonsPage = () => {
     const {levelId} = useParams();
     const lessonsProgram = useSelector(state => state.lessonsProgram);
     const [searchValue, setSearchValue] = useState("")
-
     useEffect(()=>{
         // axios.get(Config.BACKEND_ADDR + `/lessons`).
     })
@@ -84,12 +83,13 @@ export const LevelLessonsPage = () => {
                 }}>
                     {lessonsProgram.find(el=>el.id === parseInt(levelId))
                         .lessons
+                        .toSorted((a, b) => a.index - b.index)
                         .filter(el=> {
                             if(searchValue === "" || searchValue === null) return true
                             return el.name.toLowerCase().includes(searchValue.toLowerCase())
                         })
                         .map(el=>(
-                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name} />
+                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name + "__"+el.index} />
                         ))}
                 </div>
             </div>

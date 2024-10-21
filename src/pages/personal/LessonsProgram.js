@@ -34,7 +34,8 @@ export const LessonsProgram = () => {
                             file: material.index_html_path,
                             level: material.level_id,
                             name: material.name,
-                            completed: true
+                            completed: true,
+                            index: material.index
                         }
                     })
                 }
