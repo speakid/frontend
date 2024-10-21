@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import PersonalDefaultPage from "./PersonalDefaultPage";
 import {OnestBoldDefault, OnestNormalDefault} from "../../components/styled/TextComponents";
-import {BsPlus} from "react-icons/bs";
+import {BsDownload, BsEye, BsPlus} from "react-icons/bs";
 import {color_grey_light, color_red_default, color_white} from "../../constants/colors";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -27,7 +27,7 @@ const SearchBar = ({searchValue, setSearchValue}) => {
         </div>
     )
 }
-const LessonGridBlock = ({image, title}) => {
+const LessonGridBlock = ({image, title, openPath}) => {
     return (
         <div style={{
             width: 228,
@@ -57,7 +57,7 @@ const LessonGridBlock = ({image, title}) => {
                 justifyContent: "space-between",
             }}>
                 <OnestBoldDefault>{title}</OnestBoldDefault>
-                <BsPlus style={{color: color_red_default, fontSize: 30}}/>
+                <a href={openPath} target="_blank" rel="noopener noreferrer"><BsEye style={{color: color_red_default, fontSize: 25}}/></a>
             </div>
         </div>
     )
@@ -89,7 +89,7 @@ export const LevelLessonsPage = () => {
                             return el.name.toLowerCase().includes(searchValue.toLowerCase())
                         })
                         .map(el=>(
-                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name + "__"+el.index} />
+                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name + "__"+el.index} openPath={Config.CLOUD_ADDR + "/speakid/" + el.file}/>
                         ))}
                 </div>
             </div>
