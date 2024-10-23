@@ -89,7 +89,7 @@ export const LevelLessonsPage = () => {
                             return el.name.toLowerCase().includes(searchValue.toLowerCase())
                         })
                         .map(el=>(
-                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name + "__"+el.index} openPath={Config.CLOUD_ADDR + "/speakid/" + el.file}/>
+                            <LessonGridBlock image={Config.CLOUD_ADDR + "/speakid/" + el.image} title={el.name} openPath={Config.CLOUD_ADDR + "/speakid/" + el.file}/>
                         ))}
                 </div>
             </div>
